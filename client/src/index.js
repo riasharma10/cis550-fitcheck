@@ -8,6 +8,7 @@ import {
 
 import HomePage from './pages/HomePage';
 import PlayersPage from './pages/PlayersPage';
+import LoginPage from './pages/authflow/LoginPage'
 import 'antd/dist/antd.css';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -32,6 +33,11 @@ ReactDOM.render(
 							path="/matches"
 							render={() => (
 								<MatchesPage />
+							)}/>
+		<Route exact
+							path="/login"
+							render={() => (
+								<LoginPage />
 							)}/>
       </Switch>
     </Router>

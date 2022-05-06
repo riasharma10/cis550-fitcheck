@@ -1,8 +1,6 @@
 import { useContext, useState } from 'react';
-import { Formik, Form } from 'formik';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../context';
-import FormField from '../../components/FormField';
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
@@ -81,6 +79,11 @@ function LoginPage() {
     return <Redirect to="/dashboard" />;
   }
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [authError, setAuthError] = useState(undefined);
+
   async function handleSubmit({ email, password }, actions) {
     console.log(email);
     console.log(password);
@@ -97,10 +100,7 @@ function LoginPage() {
     }
   }
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const [authError, setAuthError] = useState(undefined);
+  
 
   return (
     <PageContainer>
