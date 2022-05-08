@@ -58,7 +58,7 @@ async function productuserinfo(req, res) {
 async function purposes(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
 
-        const i = parseInt(req.query.item_id);
+        const i = parseInt(req.query.item_id) ? req.query.item_id: 2;
         const s = parseInt(req.query.size) ? req.query.size : 0; ;
 
      
@@ -264,7 +264,8 @@ async function avg_rating(req, res) {
 
         const h = parseInt(req.query.helpful) ? req.query.helpful : 0;
         const cin = req.query.category ? req.query.category : "new";
-   
+        console.log("before connection quiery")
+        console.log("page: ", req.query.page)
      connection.query(`SELECT p.asin, title, AVG(overall) as avg_rating, imUrl as image
         FROM (Amazon_Product p NATURAL JOIN Amazon_Review r) NATURAL JOIN Amazon_Categories c
         WHERE (r.helpful_calculated >= '${h}') AND (category1 = '${cin}' OR category2 = '${cin}') AND
@@ -337,7 +338,8 @@ async function aboverating(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
 
         const rin = req.query.overall ? req.query.overall: 0;
-   
+    
+        
      connection.query(`WITH highBrandRating AS
         (SELECT DISTINCT p.brand as brandName
         FROM (SELECT brand, asin FROM Amazon_Product) p NATURAL JOIN (SELECT asin, overall FROM Amazon_Review) r
@@ -352,6 +354,7 @@ async function aboverating(req, res) {
              console.log(error)
              res.json({ error: error })
          } else if (results) {
+
              res.json({ results: results })
          }
      });

@@ -42,6 +42,13 @@ const getPlayerSearch = async (name, nationality, club, rating_high, rating_low,
     return res.json()
 }
 
+const getInfoQuery1Search = async (item_id, size, page, pagesize) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/purposes?item_id=${item_id}&size=${size}&page=${page}&pagesize=${pagesize}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
 
 
 
@@ -60,5 +67,6 @@ export {
     getMatch,
     getPlayer,
     getMatchSearch,
-    getPlayerSearch
+    getPlayerSearch,
+    getInfoQuery1Search
 }

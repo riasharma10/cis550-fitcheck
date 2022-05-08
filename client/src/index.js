@@ -8,6 +8,7 @@ import {
 
 import HomePage from './pages/HomePage';
 import PlayersPage from './pages/PlayersPage';
+import ProductInfoPage from './pages/ProductInfoPage';
 import 'antd/dist/antd.css';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -27,6 +28,11 @@ ReactDOM.render(
 							path="/players"
 							render={() => (
 								<PlayersPage />
+							)}/>
+		<Route exact
+							path="/product_info"
+							render={() => (
+								<ProductInfoPage />
 							)}/>
         <Route exact
 							path="/matches"
