@@ -138,8 +138,9 @@ async function bodytype(req, res) {
 async function top_category_size(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
         
+        console.log("in route");
         const c = parseInt(req.query.category) ? req.query.category: "new";
-        const s = parseInt(req.query.size) ? req.query.size : 0; ;
+        const s = parseInt(req.query.size) ? req.query.size : 0; 
 
      connection.query(`SELECT DISTINCT p.item_id, rating
         FROM Product_Mod p 
@@ -152,7 +153,7 @@ async function top_category_size(req, res) {
              console.log(error)
              res.json({ error: error })
          } else if (results) {
-             res.json({ results: results })
+            res.json({ results: results })
          }
      });
 

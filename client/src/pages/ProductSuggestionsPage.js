@@ -103,11 +103,12 @@ class ProductSuggestionsPage extends React.Component {
         }
 
         this.updateSearchResults = this.updateSearchResults.bind(this)
+        this.updateSearch3Results = this.updateSearch3Results.bind(this)
         this.handleBodyTypeQueryChange = this.handleBodyTypeQueryChange.bind(this)
         this.handleBustQueryChange = this.handleBustQueryChange.bind(this)
         this.handleAgeChange = this.handleAgeChange.bind(this)
-        this.handleCategoryChange = this.handleCategoryChange.bind(this)
-        this.handleSizeChange = this.handleSizeChange.bind(this)
+        this.handleCategoryQueryChange = this.handleCategoryQueryChange.bind(this)
+        this.handleSizeQueryChange = this.handleSizeQueryChange.bind(this)
     }
 
     
@@ -138,16 +139,19 @@ class ProductSuggestionsPage extends React.Component {
 
         //TASK 23: call getPlayerSearch and update playerResults in state. See componentDidMount() for a hint
         getProductSuggestions(this.state.bodyTypeQuery, this.state.bustQuery, this.state.ageHighQuery, this.state.ageLowQuery, 1).then(res => {
-            console.log(res.results);
             this.setState({ productSuggestionsResults: res.results })
         })
     }
 
-    componentDidMount() {
-        getProductSuggestions(this.state.bodyTypeQuery, this.state.bustQuery, this.state.ageHighQuery, this.state.ageLowQuery, 1).then(res => {
-            this.setState({ productSuggestionsResults: res.results })
-        })
+    updateSearch3Results() {
 
+        //TASK 23: call getPlayerSearch and update playerResults in state. See componentDidMount() for a hint
+        getTopProductsByCategorySize(this.state.categoryQuery, this.state.sizeQuery, 1).then(res => {
+            this.setState({ query3results: res.results })
+        })
+    }
+
+    componentDidMount() {
         getBodyTypeCounts(1).then(res => {
             this.setState({ query2results: res.results })
         })
@@ -205,9 +209,48 @@ class ProductSuggestionsPage extends React.Component {
 
 
                 <Divider />
+                <Form style={{ width: '80vw', margin: '0 auto', marginTop: '5vh' }}>
+                    <Row>
+                        <Col flex={2}><FormGroup style={{ width: '10vw' }}>
+                            <label>Do you want to see how many distinct sizes customers of each body type have purchased?</label>
+                        </FormGroup></Col>
+                        <Col flex={2}><FormGroup style={{ width: '10vw' }}>
+                            <Button style={{ marginTop: '4vh' }} onClick={this.updateSearchResults}>Click me!</Button>
+                        </FormGroup></Col>
+                    </Row>
+                </Form>
+                <Divider />
+
                 <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
                 <h3>Body Type Counts</h3>
                 <Table dataSource={this.state.query2results} columns={query2Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
+                                </div>
+                <Divider />
+
+                <Form style={{ width: '80vw', margin: '0 auto', marginTop: '5vh' }}>
+                    <Row>
+                        <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
+                            <label>Category</label>
+                            <FormInput placeholder="Category" value={this.state.categoryQuery} onChange={this.handleCategoryQueryChange} />
+                        </FormGroup></Col>
+                        <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
+                            <label>Size</label>
+                            <FormInput placeholder="Size" value={this.state.sizeQuery} onChange={this.handleSizeQueryChange} />
+                        </FormGroup></Col>
+                        {/* TASK 26: Create a column for Club, using the elements and style we followed in the above two columns. Use the onChange method (handleClubQueryChange)  */}
+                    </Row>
+                    <br></br>
+                    <Row>
+                        <Col flex={2}><FormGroup style={{ width: '10vw' }}>
+                            <Button style={{ marginTop: '4vh' }} onClick={this.updateSearch3Results}>Search</Button>
+                        </FormGroup></Col>
+                    </Row>
+                </Form>
+                <Divider />
+
+                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
+                <h3>Top 100 Rated Products by Category and Size</h3>
+                <Table dataSource={this.state.query3results} columns={query3Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
                                 </div>
                 <Divider />
 

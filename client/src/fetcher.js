@@ -57,6 +57,7 @@ const getBodyTypeCounts = async (page) => {
 }
 
 const getTopProductsByCategorySize = async (category, size, page) => {
+    console.log("in fetcher");
     var res = await fetch(`http://${config.server_host}:${config.server_port}/top_category_size/?category=${category}&size=${size}&page=${page}`, {
         method: 'GET',
     })
