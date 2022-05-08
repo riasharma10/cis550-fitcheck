@@ -42,8 +42,8 @@ const getPlayerSearch = async (name, nationality, club, rating_high, rating_low,
     return res.json()
 }
 
-const getInfoQuery1Search = async (item_id, size, page, pagesize) => {
-    var res = await fetch(`http://${config.server_host}:${config.server_port}/purposes?item_id=${item_id}&size=${size}&page=${page}&pagesize=${pagesize}`, {
+const getInfoQuery1Search = async (item_id, size, page) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/purposes?item_id=${item_id}&size=${size}&page=${page}`, {
         method: 'GET',
     })
     return res.json()

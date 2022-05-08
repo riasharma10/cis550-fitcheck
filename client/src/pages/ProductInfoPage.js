@@ -150,14 +150,14 @@ class ProductInfoPage extends React.Component {
 
     updateSearchResults1() {
 
-        getInfoQuery1Search(this.state.item_id1Query, this.state.size1Query, null, null).then(res => {
+        getInfoQuery1Search(this.state.item_id1Query, this.state.size1Query, 1).then(res => {
             this.setState({ query1Results: res.results })
         })
     }
 
     //HOW DO I SEPARATE THIS OUT FOR 3?
     componentDidMount() {
-        getInfoQuery1Search(this.state.item_id1Query, this.state.size1Query, null, null).then(res => {
+        getInfoQuery1Search(this.state.item_id1Query, this.state.size1Query, 1).then(res => {
             this.setState({ query1Results: res.results })
         })
 

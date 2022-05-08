@@ -59,7 +59,9 @@ async function purposes(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
 
         const i = parseInt(req.query.item_id) ? req.query.item_id: 2;
-        const s = parseInt(req.query.size) ? req.query.size : 0; ;
+        const s = parseInt(req.query.size) ? req.query.size : 0;
+
+        console.log("before connection query");
 
      
      connection.query(`SELECT DISTINCT rented_for
