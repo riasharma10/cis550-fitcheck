@@ -49,15 +49,20 @@ const getInfoQuery1Search = async (item_id, size, page) => {
     return res.json()
 }
 
+const getInfoQuery2Search = async (item_id, rating, page) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/getProductFromRating?item_id=${item_id}&rating=${rating}&page=${page}`, {
+        method: 'GET',
+    })
+    console.log(res)
+    return res.json()
+}
 
-
-
-
-
-
-
-
-
+const getInfoQuery3Search = async (item_id, size, page) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/avg_rating?item_id=${item_id}&size=${size}&page=${page}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
 
 
 
@@ -68,5 +73,7 @@ export {
     getPlayer,
     getMatchSearch,
     getPlayerSearch,
-    getInfoQuery1Search
+    getInfoQuery1Search,
+    getInfoQuery2Search,
+    getInfoQuery3Search
 }

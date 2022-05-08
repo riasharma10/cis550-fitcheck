@@ -57,8 +57,6 @@ async function purposes(req, res) {
         const i = parseInt(req.query.item_id) ? req.query.item_id: 2;
         const s = parseInt(req.query.size) ? req.query.size : 0;
 
-        console.log("before connection query");
-
      
      connection.query(`SELECT DISTINCT rented_for
         FROM Review_Rent r 
@@ -86,13 +84,12 @@ async function purposes(req, res) {
 async function getProductFromRating(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
 
-        const i = parseInt(req.query.item_id);
+        const i = parseInt(req.query.item_id) ? req.query.item_id: 0;
         const q = parseInt(req.query.rating) ? req.query.rating : 5.0; ;
-
      
      connection.query(`SELECT review_text AS Review, fit AS Fit
         FROM Product_Rent p JOIN Review_Rent r ON p.item_id = r.item_id AND p.size =r.size 
-        WHERE p.item_id = '${i}' AND rating = '${q}'`, function (error, results, fields)
+        WHERE p.item_id = '${i}' AND rating = ${q}`, function (error, results, fields)
 {
 
          if (error) {
@@ -170,10 +167,10 @@ async function top_category_size(req, res) {
 async function avg_rating(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
 
-    const item_id = parseInt(req.query.item_id);
+    const item_id = parseInt(req.query.item_id ? req.query.item_id: 0);
     const size = parseInt(req.query.size) ? req.query.size : 0;
    
-     connection.query(`SELECT AVG(rating)
+     connection.query(`SELECT AVG(rating) as avg_rating
         FROM Product_Mod p
         JOIN Review_Mod r ON p.item_id = r.item_id AND p.size = r.size
         WHERE p.item_id = '${item_id}' AND p.size = '${size}'
