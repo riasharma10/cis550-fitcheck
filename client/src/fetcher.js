@@ -42,8 +42,22 @@ const getPlayerSearch = async (name, nationality, club, rating_high, rating_low,
     return res.json()
 }
 
-const getProductSuggestions = async (bodytype, bust, age_high, age_low, page, pagesize) => {
-    var res = await fetch(`http://${config.server_host}:${config.server_port}/productuserinfo/userbodytype=${bodytype}&bustApprox=${bust}&ageupperbound=${age_high}&agelowerbound=${age_low}&page=${page}&pagesize=${pagesize}`, {
+const getProductSuggestions = async (bodytype, bust, age_high, age_low, page) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/productuserinfo/?userbodytype=${bodytype}&bustApprox=${bust}&ageupperbound=${age_high}&agelowerbound=${age_low}&page=${page}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
+const getBodyTypeCounts = async (page) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/bodytype/?page=${page}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
+const getTopProductsByCategorySize = async (category, size, page) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/top_category_size/?category=${category}&size=${size}&page=${page}`, {
         method: 'GET',
     })
     return res.json()
@@ -66,5 +80,7 @@ export {
     getPlayer,
     getMatchSearch,
     getPlayerSearch,
-    getProductSuggestions
+    getProductSuggestions,
+    getBodyTypeCounts,
+    getTopProductsByCategorySize
 }

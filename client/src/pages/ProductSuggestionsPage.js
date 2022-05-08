@@ -18,7 +18,7 @@ import { format } from 'd3-format';
 
 
 import MenuBar from '../components/MenuBar';
-import { getPlayerSearch, getPlayer, getProductSuggestions } from '../fetcher'
+import { getPlayerSearch, getPlayer, getProductSuggestions, getBodyTypeCounts, getTopProductsByCategorySize } from '../fetcher'
 import HomePage from './HomePage';
 const wideFormat = format('.3r');
 
@@ -51,6 +51,38 @@ const query1Columns = [
     // TASK 19: copy over your answers for tasks 7 - 9 to add columns for potential, club, and value
 ];
 
+const query2Columns = [
+    {
+        title: 'body_type',
+        dataIndex: 'body_type',
+        key: 'body_type',
+        sorter: (a, b) => a.body_type.localeCompare(b.body_type)
+    },
+    {
+        title: 'num',
+        dataIndex: 'num',
+        key: 'num',
+        sorter: (a, b) => a.num - b.num
+    }
+    // TASK 19: copy over your answers for tasks 7 - 9 to add columns for potential, club, and value
+];
+
+const query3Columns = [
+    {
+        title: 'item_id',
+        dataIndex: 'item_id',
+        key: 'item_id',
+        sorter: (a, b) => a.item_id - b.item_id
+    },
+    {
+        title: 'rating',
+        dataIndex: 'rating',
+        key: 'rating',
+        sorter: (a, b) => a.rating - b.rating
+    }
+    // TASK 19: copy over your answers for tasks 7 - 9 to add columns for potential, club, and value
+];
+
 
 class ProductSuggestionsPage extends React.Component {
     constructor(props) {
@@ -60,9 +92,13 @@ class ProductSuggestionsPage extends React.Component {
             bustQuery: '',
             ageHighQuery: 100,
             ageLowQuery: 0,
+            categoryQuery: '',
+            sizeQuery: '',
             //selectedPlayerId: window.location.search ? window.location.search.substring(1).split('=')[1] : 229594,
             //selectedPlayerDetails: null,
-            productSuggestionsResults: []
+            productSuggestionsResults: [],
+            query2results: [],
+            query3results: []
 
         }
 
@@ -70,12 +106,13 @@ class ProductSuggestionsPage extends React.Component {
         this.handleBodyTypeQueryChange = this.handleBodyTypeQueryChange.bind(this)
         this.handleBustQueryChange = this.handleBustQueryChange.bind(this)
         this.handleAgeChange = this.handleAgeChange.bind(this)
+        this.handleCategoryChange = this.handleCategoryChange.bind(this)
+        this.handleSizeChange = this.handleSizeChange.bind(this)
     }
 
     
 
     handleBodyTypeQueryChange(event) {
-        console.log("body type is changing: ", event.target.value)
         this.setState({ bodyTypeQuery: event.target.value })
     }
 
@@ -89,17 +126,30 @@ class ProductSuggestionsPage extends React.Component {
         this.setState({ ageHighQuery: value[1] })
     }
 
+    handleCategoryQueryChange(event) {
+        this.setState({ categoryQuery: event.target.value })
+    }
+
+    handleSizeQueryChange(event) {
+        this.setState({ sizeQuery: event.target.value })
+    }
+
     updateSearchResults() {
 
         //TASK 23: call getPlayerSearch and update playerResults in state. See componentDidMount() for a hint
-        getProductSuggestions(this.state.bodyTypeQuery, this.state.bustQuery, this.state.ageHighQuery, this.state.ageLowQuery, null, null).then(res => {
+        getProductSuggestions(this.state.bodyTypeQuery, this.state.bustQuery, this.state.ageHighQuery, this.state.ageLowQuery, 1).then(res => {
+            console.log(res.results);
             this.setState({ productSuggestionsResults: res.results })
         })
     }
 
     componentDidMount() {
-        getProductSuggestions(this.state.bodyTypeQuery, this.state.bustQuery, this.state.ageHighQuery, this.state.ageLowQuery, null, null).then(res => {
+        getProductSuggestions(this.state.bodyTypeQuery, this.state.bustQuery, this.state.ageHighQuery, this.state.ageLowQuery, 1).then(res => {
             this.setState({ productSuggestionsResults: res.results })
+        })
+
+        getBodyTypeCounts(1).then(res => {
+            this.setState({ query2results: res.results })
         })
 
         // TASK 25: call getPlayer with the appropriate parameter and set update the correct state variable. 
@@ -154,6 +204,11 @@ class ProductSuggestionsPage extends React.Component {
                                 </div>
 
 
+                <Divider />
+                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
+                <h3>Body Type Counts</h3>
+                <Table dataSource={this.state.query2results} columns={query2Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
+                                </div>
                 <Divider />
 
                 {this.state.selectedPlayerDetails ? <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
