@@ -232,15 +232,18 @@ async function avg_rating(req, res) {
  //Route 8:
 
  async function categoryhelpful(req, res) {
-     console.log("in route function")
+
+    console.log("in route function")
     console.log("page: ", req.query.page)
+
     if (req.query.page && !isNaN(req.query.page)) {
        // const pagesize = 10
-        const h = parseInt(req.param.helpful) ? req.param.helpful : 0;
-        const cin = req.param.category ? req.param.category : "Women";
+        const h = parseFloat(req.query.helpful) ? req.query.helpful : 0.0;
+        const cin = req.query.category ? req.query.category : "Women";
         //const lowerbound = 1000 + pagesize * (req.query.page - 1)
 
         console.log("before connection query")
+
      connection.query(`SELECT p.asin, title, AVG(overall) as avg_rating, imUrl as image
         FROM (Amazon_Product p NATURAL JOIN Amazon_Review r) NATURAL JOIN Amazon_Categories c
         WHERE (r.helpful_calculated >= '${h}') AND (category1 = '${cin}' OR category2 = '${cin}') AND
