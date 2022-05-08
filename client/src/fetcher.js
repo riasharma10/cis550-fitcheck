@@ -42,7 +42,12 @@ const getPlayerSearch = async (name, nationality, club, rating_high, rating_low,
     return res.json()
 }
 
-
+const getProductSuggestions = async (bodytype, bust, age_high, age_low, page, pagesize) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/productuserinfo/userbodytype=${bodytype}&bustApprox=${bust}&ageupperbound=${age_high}&agelowerbound=${age_low}&page=${page}&pagesize=${pagesize}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
 
 
 
@@ -60,5 +65,6 @@ export {
     getMatch,
     getPlayer,
     getMatchSearch,
-    getPlayerSearch
+    getPlayerSearch,
+    getProductSuggestions
 }
