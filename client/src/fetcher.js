@@ -1,7 +1,7 @@
 import config from './config.json'
 
-const getAllMatches = async (page, pagesize, league) => {
-    var res = await fetch(`http://${config.server_host}:${config.server_port}/matches/${league}?page=${page}&pagesize=${pagesize}`, {
+const getCategoriesHelpful = async (page, helpful, category) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/categoryhelpful/?page=${page}&helpful=${helpful}&category=${category}`, {
         method: 'GET',
     })
     return res.json()
@@ -55,7 +55,7 @@ const getPlayerSearch = async (name, nationality, club, rating_high, rating_low,
 
 
 export {
-    getAllMatches,
+    getCategoriesHelpful,
     getAllPlayers,
     getMatch,
     getPlayer,

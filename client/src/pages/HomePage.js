@@ -6,7 +6,7 @@ import {
 } from 'antd'
 
 import MenuBar from '../components/MenuBar';
-import { getAllMatches, getAllPlayers } from '../fetcher'
+import { getCategoriesHelpful, getAllPlayers } from '../fetcher'
 const { Column, ColumnGroup } = Table;
 const { Option } = Select;
 
@@ -62,7 +62,7 @@ class HomePage extends React.Component {
     super(props)
 
     this.state = {
-      matchesResults: [],
+      categoryResults: [],
       matchesPageNumber: 1,
       matchesPageSize: 10,
       playersResults: [],
@@ -83,26 +83,27 @@ class HomePage extends React.Component {
     // TASK 2: this value should be used as a parameter to call getAllMatches in fetcher.js with the parameters page and pageSize set to null
     // then, matchesResults in state should be set to the results returned - see a similar function call in componentDidMount()
 
-    getAllMatches(null, null, value).then(res => {
-      this.setState({ matchesResults: res.results })
+    getCategoriesHelpful(1, null, value).then(res => {
+      this.setState({ categoryResults: res.results})
+      console.log("results", res.results)
     })
     
   }
 
   componentDidMount() {
-    getAllMatches(null, null, 'D1').then(res => {
-      this.setState({ matchesResults: res.results })
+    getCategoriesHelpful(1, null, 'Women').then(res => {
+      this.setState({ categoryResults: res.results })
     })
-
+    /*
     getAllPlayers().then(res => {
       console.log(res.results)
       // TASK 1: set the correct state attribute to res.results
       this.setState({playersResults: res.results})
 
     })
-
- 
+*/
   }
+
 
 
   render() {
@@ -116,11 +117,11 @@ class HomePage extends React.Component {
         </div>
         <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
           <h3>Matches</h3>
-          <Select defaultValue="D1" style={{ width: 120 }} onChange={this.leagueOnChange}>
-            <Option value="D1">Bundesliga</Option>
+          <Select defaultValue="Women" style={{ width: 120 }} onChange={this.leagueOnChange}>
+            <Option value="F1">Novelty, Costumes & More</Option>
              {/* TASK 3: Take a look at Dataset Information.md from MS1 and add other options to the selector here  */}
-             <Option value="SP1">La Liga</Option>
-             <Option value="F1">Ligue 1</Option>
+             <Option value="SP1">Girls</Option>
+             <Option value="F1">Sports</Option>
              <Option value="I1">Serie A</Option>
              <Option value="E0">Premier League</Option>
           </Select>
@@ -129,11 +130,12 @@ class HomePage extends React.Component {
     return {
       onClick: event => {this.goToMatch(record.MatchId)}, // clicking a row takes the user to a detailed view of the match in the /matches page using the MatchId parameter  
     };
-  }} dataSource={this.state.matchesResults} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}>
+  }} dataSource={this.state.categoryResults} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}>
             <ColumnGroup title="Teams">
               {/* TASK 4: correct the title for the 'Home' column and add a similar column for 'Away' team in this ColumnGroup */}
-              <Column title="Home" dataIndex="Home" key="Home" sorter= {(a, b) => a.Home.localeCompare(b.Home)}/>
-              <Column title="Away" dataIndex="Away" key="Away" sorter= {(a, b) => a.Away.localeCompare(b.Away)}/>
+              <Column title="ASIN" dataIndex="asin" key="asin" sorter= {(a, b) => a.asin.localeCompare(b.asin)}/>
+              <Column title="TITLE" dataIndex="title" key="title" sorter= {(a, b) => a.avg_rating.localeCompare(b.avg_rating)}/>
+              <Column title="AVG_RATING" dataIndex="avg_rating" key="avg_rating" sorter= {(a, b) => a.title.localeCompare(b.title)}/>
             </ColumnGroup>
             <ColumnGroup title="Goals">
               {/* TASK 5: add columns for home and away goals in this ColumnGroup, with the ability to sort values in these columns numerically */}
