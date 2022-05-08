@@ -118,12 +118,17 @@ class HomePage extends React.Component {
         <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
           <h3>Matches</h3>
           <Select defaultValue="Women" style={{ width: 120 }} onChange={this.leagueOnChange}>
-            <Option value="F1">Novelty, Costumes & More</Option>
+            <Option value="Novelty, Costumes & More">Novelty, Costumes & More</Option>
              {/* TASK 3: Take a look at Dataset Information.md from MS1 and add other options to the selector here  */}
-             <Option value="SP1">Girls</Option>
-             <Option value="F1">Sports</Option>
-             <Option value="I1">Serie A</Option>
-             <Option value="E0">Premier League</Option>
+             <Option value="Girls">Girls</Option>
+             <Option value="Sports">Sports</Option>
+             <Option value="Men">Men</Option>
+             <Option value="Clothing">Clothing</Option>
+             <Option value="New Arrivals">New Arrivals</Option>
+             <Option value="Accessories">Accessories</Option>
+             <Option value="Gemstones">Gemstones</Option>
+             <Option value="Jewelry">Jewelry</Option>
+             <Option value="Luggage & Travel Gear">Luggage & Travel Gear</Option>
           </Select>
           
           <Table onRow={(record, rowIndex) => {
@@ -137,11 +142,7 @@ class HomePage extends React.Component {
               <Column title="TITLE" dataIndex="title" key="title" sorter= {(a, b) => a.avg_rating.localeCompare(b.avg_rating)}/>
               <Column title="AVG_RATING" dataIndex="avg_rating" key="avg_rating" sorter= {(a, b) => a.title.localeCompare(b.title)}/>
             </ColumnGroup>
-            <ColumnGroup title="Goals">
-              {/* TASK 5: add columns for home and away goals in this ColumnGroup, with the ability to sort values in these columns numerically */}
-              <Column title="Home Goals" dataIndex="HomeGoals" key="HomeGoals" sorter= {(a, b) => a.HomeGoals - b.HomeGoals}/>
-              <Column title="Away Goals" dataIndex="AwayGoals" key="AwayGoals" sorter= {(a, b) => a.AwayGoals - b.AwayGoals}/>
-            </ColumnGroup>
+            
              {/* TASK 6: create two columns (independent - not in a column group) for the date and time. Do not add a sorting functionality */}
              <Column title="Date" dataIndex="Date" key="Date" />
              <Column title="Time" dataIndex="Time" key="Time" />
