@@ -42,12 +42,8 @@ async function productuserinfo(req, res) {
         });
 
     } else {
-         if (error) {
-             console.log(error)
-             res.json({ error: error })
-         } else if (results) {
-             res.json({ results: results })
-         }
+        console.log("page not defined")
+        res.json({message: "in the error field -- page was not defined"});
      }
 }
 
@@ -78,12 +74,8 @@ async function purposes(req, res) {
      });
 
  } else {
-         if (error) {
-             console.log(error)
-             res.json({ error: error })
-         } else if (results) {
-             res.json({ results: results })
-         }
+    console.log("page not defined")
+    res.json({message: "in the error field -- page was not defined"});
      }
 }
 
@@ -110,12 +102,8 @@ async function getProductFromRating(req, res) {
      })
 
  } else {
-         if (error) {
-             console.log(error)
-             res.json({ error: error })
-         } else if (results) {
-             res.json({ results: results })
-         }
+    console.log("page not defined")
+    res.json({message: "in the error field -- page was not defined"});
      }
 }
 
@@ -139,12 +127,8 @@ async function bodytype(req, res) {
      });
 
  } else {
-         if (error) {
-             console.log(error)
-             res.json({ error: error })
-         } else if (results) {
-             res.json({ results: results })
-         }
+    console.log("page not defined")
+    res.json({message: "in the error field -- page was not defined"});
      }
 }
 
@@ -173,12 +157,8 @@ async function top_category_size(req, res) {
      });
 
  } else {
-         if (error) {
-             console.log(error)
-             res.json({ error: error })
-         } else if (results) {
-             res.json({ results: results })
-         }
+    console.log("page not defined")
+    res.json({message: "in the error field -- page was not defined"});
      }
 }
 
@@ -207,12 +187,8 @@ async function avg_rating(req, res) {
      });
 
  } else {
-         if (error) {
-             console.log(error)
-             res.json({ error: error })
-         } else if (results) {
-             res.json({ results: results })
-         }
+    console.log("page not defined")
+    res.json({message: "in the error field -- page was not defined"});
      }
     }
 
@@ -247,12 +223,8 @@ async function avg_rating(req, res) {
          });
     
      } else {
-             if (error) {
-                 console.log(error)
-                 res.json({ error: error })
-             } else if (results) {
-                 res.json({ results: results })
-             }
+        console.log("page not defined")
+        res.json({message: "in the error field -- page was not defined"});
          }
  }
 
@@ -260,11 +232,15 @@ async function avg_rating(req, res) {
  //Route 8:
 
  async function categoryhelpful(req, res) {
+     console.log("in route function")
+    console.log("page: ", req.query.page)
     if (req.query.page && !isNaN(req.query.page)) {
+       // const pagesize = 10
+        const h = parseInt(req.param.helpful) ? req.param.helpful : 0;
+        const cin = req.param.category ? req.param.category : "Women";
+        //const lowerbound = 1000 + pagesize * (req.query.page - 1)
 
-        const h = parseInt(req.query.helpful) ? req.query.helpful : 0;
-        const cin = req.query.category ? req.query.category : "new";
-   
+        console.log("before connection query")
      connection.query(`SELECT p.asin, title, AVG(overall) as avg_rating, imUrl as image
         FROM (Amazon_Product p NATURAL JOIN Amazon_Review r) NATURAL JOIN Amazon_Categories c
         WHERE (r.helpful_calculated >= '${h}') AND (category1 = '${cin}' OR category2 = '${cin}') AND
@@ -281,17 +257,14 @@ async function avg_rating(req, res) {
              console.log(error)
              res.json({ error: error })
          } else if (results) {
+             console.log("query went through -- success!")
              res.json({ results: results })
          }
      });
 
  } else {
-         if (error) {
-             console.log(error)
-             res.json({ error: error })
-         } else if (results) {
-             res.json({ results: results })
-         }
+        console.log("page not defined")
+         res.json({message: "in the error field -- page was not defined"});
      }
 }
 
@@ -321,12 +294,8 @@ async function relatedproducts(req, res) {
      });
 
  } else {
-         if (error) {
-             console.log(error)
-             res.json({ error: error })
-         } else if (results) {
-             res.json({ results: results })
-         }
+    console.log("page not defined")
+    res.json({message: "in the error field -- page was not defined"});
      }
 }
 
@@ -357,12 +326,8 @@ async function aboverating(req, res) {
      });
 
  } else {
-         if (error) {
-             console.log(error)
-             res.json({ error: error })
-         } else if (results) {
-             res.json({ results: results })
-         }
+    console.log("page not defined")
+    res.json({message: "in the error field -- page was not defined"});
      }
 }
 
