@@ -2,58 +2,41 @@ import React from 'react';
 import {
   Table,
   Pagination,
-  Select
+  Select,
+  Row,
+  Col,
+  Divider,
+  Slider,
+  Rate 
 } from 'antd'
+import { Form, FormInput, FormGroup, Button, Card, CardBody, CardTitle, Progress } from "shards-react";
+
 
 import MenuBar from '../components/MenuBar';
-import { getCategoriesHelpful, getAllPlayers } from '../fetcher'
+import { getCategoriesHelpful, getProductsFromKeywords } from '../fetcher'
 const { Column, ColumnGroup } = Table;
 const { Option } = Select;
 
 
-const playerColumns = [
+const productColumns = [
   {
-    title: 'Name',
-    dataIndex: 'Name',
-    key: 'Name',
-    sorter: (a, b) => a.Name.localeCompare(b.Name),
-    render: (text, row) => <a href={`/players?id=${row.PlayerId}`}>{text}</a>
-  },
-  {
-    title: 'Nationality',
-    dataIndex: 'Nationality',
-    key: 'Nationality',
-    sorter: (a, b) => a.Nationality.localeCompare(b.Nationality)
+    title: 'Title',
+    dataIndex: 'ProductTitle',
+    key: 'ProductTitle',
+    sorter: (a, b) => a.ProductTitle.localeCompare(b.ProductTitle),
   },
   {
     title: 'Rating',
-    dataIndex: 'Rating',
-    key: 'Rating',
-    sorter: (a, b) => a.Rating - b.Rating
-    
+    dataIndex: 'AvgRating',
+    key: 'AvgRating',
+    sorter: (a, b) => a.AvgRating.localeCompare(b.AvgRating)
   },
   {
-    title: 'Potential',
-    dataIndex: 'Potential',
-    key: 'Potential',
-    sorter: (a, b) => a.Potential - b.Potential
+    title: 'Image',
+    dataIndex: 'image',
+    key: 'image',
     
   },
-  {
-    title: 'Club',
-    dataIndex: 'Club',
-    key: 'Club',
-    sorter: (a, b) => a.Club.localeCompare(b.Club),
-    
-  },
-  {
-    title: 'Value',
-    dataIndex: 'Value',
-    key: 'Value',    
-  },
-  // TASK 7: add a column for Potential, with the ability to (numerically) sort ,
-  // TASK 8: add a column for Club, with the ability to (alphabetically) sort 
-  // TASK 9: add a column for Value - no sorting required
 ];
 
 class HomePage extends React.Component {
@@ -63,14 +46,24 @@ class HomePage extends React.Component {
 
     this.state = {
       categoryResults: [],
+      keywordResults: [],
       matchesPageNumber: 1,
       matchesPageSize: 10,
       playersResults: [],
-      pagination: null  
+      pagination: null,
+      keyWord1Query: '',
+      keyWord2Query: '',
+      priceLowQuery: 0,
+      priceHighQuery: 0,
     }
 
     this.leagueOnChange = this.leagueOnChange.bind(this)
     this.goToMatch = this.goToMatch.bind(this)
+
+    this.keywordOnChange = this.keywordOnChange.bind(this)
+    this.handlePriceChange = this.handlePriceChange.bind(this)
+    this.handleKeyWord1QueryChange = this.handleKeyWord1QueryChange.bind(this)
+    this.handleKeyWord2QueryChange = this.handleKeyWord2QueryChange.bind(this)
   }
 
 
@@ -90,18 +83,41 @@ class HomePage extends React.Component {
     
   }
 
+  keywordOnChange() {
+    console.log("keyword on change function")
+    getProductsFromKeywords(1, this.state.keyWord1Query, this.state.keyWord2Query, this.state.priceLowQuery, this.state.priceHighQuery).then(res => {
+      this.setState({ keywordResults: res.results})
+      console.log("keyword results", res.results)
+    })
+    
+  }
+
+  handlePriceChange(value) {
+    this.setState({ priceLowQuery: value[0] })
+    this.setState({ priceHighQuery: value[1] })
+  }
+
+  handleKeyWord1QueryChange(event) {
+    console.log("keyword1 is changing: ", event.target.value)
+    this.setState({keyWord1Query: event.target.value})
+  }
+
+  handleKeyWord2QueryChange(event) {
+    console.log("keyword2 is changing: ", event.target.value)
+    this.setState({keyWord2Query: event.target.value})
+  }
+
+
   componentDidMount() {
     getCategoriesHelpful(1, null, 'Women').then(res => {
-      this.setState({ categoryResults: res.results })
+      this.setState({categoryResults: res.results })
     })
-    /*
-    getAllPlayers().then(res => {
-      console.log(res.results)
-      // TASK 1: set the correct state attribute to res.results
-      this.setState({playersResults: res.results})
 
+    getProductsFromKeywords(1, "pretty", "nice", 0, 100).then(res => {
+      this.setState({ keywordResults: res.results})
+      console.log("results", res.results)
     })
-*/
+    
   }
 
 
@@ -112,8 +128,9 @@ class HomePage extends React.Component {
       <div>
         <MenuBar />
         <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh' }}>
+          
           <h3>Players</h3>
-          <Table dataSource={this.state.playersResults} columns={playerColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
+          <Table dataSource={this.state.playersResults} columns={productColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
         </div>
         <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
           <h3>Matches</h3>
@@ -130,7 +147,6 @@ class HomePage extends React.Component {
              <Option value="Jewelry">Jewelry</Option>
              <Option value="Luggage & Travel Gear">Luggage & Travel Gear</Option>
           </Select>
-          
           <Table onRow={(record, rowIndex) => {
     return {
       onClick: event => {this.goToMatch(record.MatchId)}, // clicking a row takes the user to a detailed view of the match in the /matches page using the MatchId parameter  
@@ -147,6 +163,35 @@ class HomePage extends React.Component {
              <Column title="Date" dataIndex="Date" key="Date" />
              <Column title="Time" dataIndex="Time" key="Time" />
           </Table>
+
+        </div>
+
+        <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
+        <h3>Best Related Products by Review</h3>
+        <Row gutter='30' align='middle' justify='center'>
+            <Col flex={2}><FormGroup style={{ width: '15vw', margin: '0 auto' }}>
+                <label>Keyword 1</label>
+                <FormInput placeholder="Keyword" value={this.state.keyWord1Query} onChange={this.handleKeyWord1QueryChange} />
+            </FormGroup></Col>
+            <Col flex={2}><FormGroup style={{ width: '15vw', margin: '0 auto' }}>
+                <label>Keyword 2</label>
+                <FormInput placeholder="Keyword" value={this.state.keyWord2Query} onChange={this.handleKeyWord2QueryChange} />
+            </FormGroup></Col>
+            <Col flex={2}><FormGroup style={{ width: '15vw', margin: '0 auto' }}>
+                <label>Price</label>
+                <Slider range defaultValue={[1, 300]} onChange={this.handlePriceChange} />
+            </FormGroup></Col>
+            <Col flex={2}><FormGroup style={{ width: '10vw' }}>
+                            <Button style={{ marginTop: '4vh' }} onClick={this.keywordOnChange}>Search</Button>
+                        </FormGroup></Col>
+            
+        </Row>
+
+        <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
+                
+                <Table dataSource={this.state.keywordResults} columns={productColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
+                                </div>
+
 
         </div>
 

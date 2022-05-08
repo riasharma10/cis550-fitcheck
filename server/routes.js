@@ -201,16 +201,19 @@ async function avg_rating(req, res) {
             const word1 = req.query.keyword1;
             const word2 = req.query.keyword2;
             const price1 = parseInt(req.query.price);
+            const price2 = req.query.price2
+
+            console.log("before connection in reviewword")
        
          connection.query(`SELECT p.title as ProductTitle, AVG(r.overall) as AvgRating, p.imUrl as image
             FROM Amazon_Product p NATURAL JOIN Amazon_Review r
-            WHERE p.price < '${price1}' AND
+            WHERE (p.price < '${price2}') AND (p.price > '${price1}') AND
             EXISTS (SELECT asin
             FROM Amazon_Review subRev1
-            WHERE subRev1.asin = p.asin AND (subRev1.reviewText LIKE '%'${word1}'%')) OR
+            WHERE subRev1.asin = p.asin AND (subRev1.reviewText LIKE '%${word1}%')) OR
             EXISTS (SELECT asin
             FROM Amazon_Review subRev2
-            WHERE subRev2.asin = p.asin AND (subRev2.reviewText LIKE '%'${word2}%'))
+            WHERE subRev2.asin = p.asin AND (subRev2.reviewText LIKE '%${word2}%'))
             GROUP BY p.asin
             ORDER BY AVG(r.overall) DESC`, function (error, results, fields)
  {
@@ -218,6 +221,7 @@ async function avg_rating(req, res) {
                  console.log(error)
                  res.json({ error: error })
              } else if (results) {
+                console.log("reviewwords results from routes.js: ", results)
                  res.json({ results: results })
              }
          });

@@ -7,8 +7,8 @@ const getCategoriesHelpful = async (page, helpful, category) => {
     return res.json()
 }
 
-const getAllPlayers = async (page, pagesize) => {
-    var res = await fetch(`http://${config.server_host}:${config.server_port}/players?page=${page}&pagesize=${pagesize}`, {
+const getProductsFromKeywords = async (page, word1, word2, price, priceHigh) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/reviewwords?page=${page}&keyword1=${word1}&keyword2=${word2}&price=${price}&price2=${priceHigh}`, {
         method: 'GET',
     })
     return res.json()
@@ -56,7 +56,7 @@ const getPlayerSearch = async (name, nationality, club, rating_high, rating_low,
 
 export {
     getCategoriesHelpful,
-    getAllPlayers,
+    getProductsFromKeywords,
     getMatch,
     getPlayer,
     getMatchSearch,
