@@ -103,6 +103,7 @@ class ProductSuggestionsPage extends React.Component {
         }
 
         this.updateSearchResults = this.updateSearchResults.bind(this)
+        this.updateSearch2Results = this.updateSearch2Results.bind(this)
         this.updateSearch3Results = this.updateSearch3Results.bind(this)
         this.handleBodyTypeQueryChange = this.handleBodyTypeQueryChange.bind(this)
         this.handleBustQueryChange = this.handleBustQueryChange.bind(this)
@@ -143,6 +144,14 @@ class ProductSuggestionsPage extends React.Component {
         })
     }
 
+    updateSearch2Results() {
+
+        //TASK 23: call getPlayerSearch and update playerResults in state. See componentDidMount() for a hint
+        getBodyTypeCounts(1).then(res => {
+            this.setState({ query2results: res.results })
+        })
+    }
+
     updateSearch3Results() {
 
         //TASK 23: call getPlayerSearch and update playerResults in state. See componentDidMount() for a hint
@@ -152,9 +161,7 @@ class ProductSuggestionsPage extends React.Component {
     }
 
     componentDidMount() {
-        getBodyTypeCounts(1).then(res => {
-            this.setState({ query2results: res.results })
-        })
+        
 
         // TASK 25: call getPlayer with the appropriate parameter and set update the correct state variable. 
         // See the usage of getMatch in the componentDidMount method of MatchesPage for a hint! 
@@ -173,6 +180,8 @@ class ProductSuggestionsPage extends React.Component {
             <div>
 
                 <MenuBar />
+                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
+                <h3>Product Suggestions</h3>
                 <Form style={{ width: '80vw', margin: '0 auto', marginTop: '5vh' }}>
                     <Row>
                         <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
@@ -202,31 +211,33 @@ class ProductSuggestionsPage extends React.Component {
                 <Divider />
                 {/* TASK 24: Copy in the players table from the Home page, but use the following style tag: style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }} - this should be one line of code! */}
                 
-                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
-                <h3>Product Suggestions</h3>
+                
                 <Table dataSource={this.state.productSuggestionsResults} columns={query1Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
                                 </div>
 
 
                 <Divider />
+                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
+                <h3>Body Type vs Size Counts</h3>
                 <Form style={{ width: '80vw', margin: '0 auto', marginTop: '5vh' }}>
                     <Row>
-                        <Col flex={2}><FormGroup style={{ width: '10vw' }}>
+                    <Col flex={2}><FormGroup className = "text-center" style={{ width: '50vw' }}>
                             <label>Do you want to see how many distinct sizes customers of each body type have purchased?</label>
                         </FormGroup></Col>
                         <Col flex={2}><FormGroup style={{ width: '10vw' }}>
-                            <Button style={{ marginTop: '4vh' }} onClick={this.updateSearchResults}>Click me!</Button>
+                            <Button style={{ marginTop: '4vh' }} onClick={this.updateSearch2Results}>Click me!</Button>
                         </FormGroup></Col>
                     </Row>
                 </Form>
                 <Divider />
 
-                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
-                <h3>Body Type Counts</h3>
+                
                 <Table dataSource={this.state.query2results} columns={query2Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
                                 </div>
                 <Divider />
 
+                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
+                <h3>Top 100 Rated Products by Category and Size</h3>
                 <Form style={{ width: '80vw', margin: '0 auto', marginTop: '5vh' }}>
                     <Row>
                         <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
@@ -237,19 +248,15 @@ class ProductSuggestionsPage extends React.Component {
                             <label>Size</label>
                             <FormInput placeholder="Size" value={this.state.sizeQuery} onChange={this.handleSizeQueryChange} />
                         </FormGroup></Col>
-                        {/* TASK 26: Create a column for Club, using the elements and style we followed in the above two columns. Use the onChange method (handleClubQueryChange)  */}
-                    </Row>
-                    <br></br>
-                    <Row>
                         <Col flex={2}><FormGroup style={{ width: '10vw' }}>
                             <Button style={{ marginTop: '4vh' }} onClick={this.updateSearch3Results}>Search</Button>
                         </FormGroup></Col>
+                        {/* TASK 26: Create a column for Club, using the elements and style we followed in the above two columns. Use the onChange method (handleClubQueryChange)  */}
                     </Row>
                 </Form>
                 <Divider />
 
-                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
-                <h3>Top 100 Rated Products by Category and Size</h3>
+                
                 <Table dataSource={this.state.query3results} columns={query3Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
                                 </div>
                 <Divider />
