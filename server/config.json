@@ -1,9 +1,9 @@
 {
-    "rds_host": "hw-2.cf7m89rtiaej.us-east-1.rds.amazonaws.com",
+    "rds_host": "final-project.cf7m89rtiaej.us-east-1.rds.amazonaws.com",
     "rds_port": "3306",
-    "rds_user": "rias",
-    "rds_password" : "Hw2Database",
-    "rds_db": "FIFA",
+    "rds_user": "fitcheck",
+    "rds_password" : "fitcheck1234",
+    "rds_db": "finalproject",
     "server_host": "127.0.0.1",
     "server_port":"8080"
 }

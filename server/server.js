@@ -12,28 +12,36 @@ const app = express();
 app.use(cors({ credentials: true, origin: ['http://localhost:3000'] }));
 
 // Route 1 - register as GET 
-app.get('/hello', routes.hello)
+app.get('/productuserinfo', routes.productuserinfo)
 
 // Route 2 - register as GET 
-app.get('/jersey/:choice', routes.jersey)
+app.get('/purposes', routes.purposes)
 
 // Route 3 - register as GET 
-app.get('/matches/:league', routes.all_matches)
+app.get('/getProductFromRating', routes.getProductFromRating)
 
 // Route 4 - register as GET 
-app.get('/players', routes.all_players)
+app.get('/bodytype', routes.bodytype)
 
 // Route 5 - register as GET 
-app.get('/match', routes.match)
+app.get('/top_category_size', routes.top_category_size)
 
 // Route 6 - register as GET 
-app.get('/player', routes.player)
+app.get('/avg_rating', routes.avg_rating)
 
 // Route 7 - register as GET 
-app.get('/search/matches', routes.search_matches)
+app.get('/reviewwords', routes.reviewwords)
 
 // Route 8 - register as GET 
-app.get('/search/players', routes.search_players)
+app.get('/categoryhelpful', routes.categoryhelpful)
+
+//Route 9
+app.get('/relatedproducts', routes.relatedproducts)
+
+// Route 10
+app.get('/aboverating', routes.aboverating)
+
+
 
 
 
