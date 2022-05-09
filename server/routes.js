@@ -205,23 +205,16 @@ async function avg_rating(req, res) {
 
             console.log("before connection in reviewword")
        
-         connection.query(`SELECT p.title as ProductTitle, AVG(r.overall) as AvgRating, p.imUrl as image
-            FROM Amazon_Product p NATURAL JOIN Amazon_Review r
-            WHERE (p.price < '${price2}') AND (p.price > '${price1}') AND
-            EXISTS (SELECT asin
-            FROM Amazon_Review subRev1
-            WHERE subRev1.asin = p.asin AND (subRev1.reviewText LIKE '%${word1}%')) OR
-            EXISTS (SELECT asin
-            FROM Amazon_Review subRev2
-            WHERE subRev2.asin = p.asin AND (subRev2.reviewText LIKE '%${word2}%'))
-            GROUP BY p.asin
-            ORDER BY AVG(r.overall) DESC`, function (error, results, fields)
+         connection.query(`SELECT p.title as ProductTitle, overall as AvgRating, p.imUrl as image, p.price as price, r.reviewText as review
+         FROM Amazon_Product p NATURAL JOIN Amazon_Review r
+         WHERE (p.price < '${price2}') AND (p.price > '${price1}') AND (reviewText LIKE '%${word1}%')
+         ORDER BY overall DESC`, function (error, results, fields)
  {
              if (error) {
                  console.log(error)
                  res.json({ error: error })
              } else if (results) {
-                console.log("reviewwords results from routes.js: ", results)
+                console.log("query succeeded ")
                  res.json({ results: results })
              }
          });
@@ -279,24 +272,42 @@ async function avg_rating(req, res) {
 //Route 9: 
 
 async function relatedproducts(req, res) {
+    console.log(req.query.page)
     if (req.query.page && !isNaN(req.query.page)) {
 
-        const input_asin = req.query.asin;
-   
-     connection.query(`WITH averageProductRatings AS
-        (SELECT asin, AVG(overall) AS avg_rating
+        const category2 = req.query.category2;
+
+        console.log("before connection in relatedproducts")
+     connection.query(`WITH ReviewTemp as (
+        SELECT asin, helpful_calculated, unixReviewTime
         FROM Amazon_Review
-        GROUP BY asin)
-        SELECT pr.asin, title, imUrl AS image, avg_rating
-        FROM (Amazon_Product p NATURAL JOIN Amazon_Related r) JOIN averageProductRatings pr ON pr.asin = p.asin 
-        WHERE p.asin = '${input_asin} AND (r.alsoView = pr.asin OR r.alsoBought = pr.asin OR r.boughtTogether = pr.asin)
-        ORDER BY avg_rating DESC`, function (error, results, fields)
+        WHERE helpful_calculated > 0.1
+    ),
+     Products as(
+        SELECT Prod.asin, alsoView, alsoBought, boughtTogether
+        FROM ((Amazon_Product Prod JOIN Amazon_Related Rel on Prod.asin = Rel.asin)
+            JOIN ReviewTemp RevTemp ON Prod.asin = RevTemp.asin)
+            JOIN Amazon_Categories Cat ON Prod.asin = Cat.asin
+        WHERE category2 = '${category2}'
+    ), alsoBoughtTimes as (
+        SELECT P.asin, P.alsoBought, unixReviewTime AS timeAlsoBought
+        FROM Products P JOIN ReviewTemp RT ON  P.alsoBought = RT.asin
+    ), boughtTogetherTimes as (
+        SELECT P.asin, P.boughtTogether, unixReviewTime AS timeBoughtTogether
+        FROM Products P JOIN ReviewTemp RT ON  P.boughtTogether = RT.asin
+    )
+    SELECT Prod.asin, Prod.alsoView, Prod.alsoBought, Prod.boughtTogether, ABS(timeAlsoBought - timeBoughtTogether)/(60*60*24) AS Difference
+    FROM (Products Prod JOIN alsoBoughtTimes ABT ON Prod.asin = ABT.asin)
+         JOIN boughtTogetherTimes BTT ON Prod.asin = BTT.asin
+    LIMIT 1000;`, function (error, results, fields)
         {
          if (error) {
              console.log(error)
              res.json({ error: error })
          } else if (results) {
+            console.log("relatedproducts suceeded")
              res.json({ results: results })
+             
          }
      });
 
@@ -312,22 +323,24 @@ async function relatedproducts(req, res) {
 async function aboverating(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
 
-        const rin = req.query.overall ? req.query.overall: 0;
-   
+        const rinLow = req.query.overallLow ? req.query.overallLow: 0;
+        
+        console.log("before the aboverating query")
      connection.query(`WITH highBrandRating AS
-        (SELECT DISTINCT p.brand as brandName
-        FROM (SELECT brand, asin FROM Amazon_Product) p NATURAL JOIN (SELECT asin, overall FROM Amazon_Review) r
-        GROUP BY p.brand
-        HAVING AVG(r.overall) > '${rin}')
-        SELECT DISTINCT prod.title as title, prod.imURL as image, prod.brand as brand, AVG (rev.overall) as avg_rating
-        FROM (SELECT title, imURL, brand, asin FROM Amazon_Product) prod NATURAL JOIN (SELECT asin, overall FROM Amazon_Review) rev
-        WHERE prod.brand IN (SELECT brandName FROM highBrandRating)
-        GROUP BY prod.asin`, function (error, results, fields)
+     (SELECT DISTINCT p.brand as brandName
+     FROM (SELECT brand, asin FROM Amazon_Product) p NATURAL JOIN (SELECT asin, overall FROM Amazon_Review) r
+     GROUP BY p.brand
+     HAVING AVG(r.overall) > '${rinLow}')
+     SELECT DISTINCT prod.title as title, prod.imURL as image, prod.brand as brand, AVG (rev.overall) as avg_rating
+     FROM (SELECT title, imURL, brand, asin FROM Amazon_Product) prod NATURAL JOIN (SELECT asin, overall FROM Amazon_Review) rev
+     WHERE prod.brand IN (SELECT brandName FROM highBrandRating)
+     GROUP BY prod.asin`, function (error, results, fields)
         {
          if (error) {
              console.log(error)
              res.json({ error: error })
          } else if (results) {
+            console.log("above rating query succeeded")
              res.json({ results: results })
          }
      });

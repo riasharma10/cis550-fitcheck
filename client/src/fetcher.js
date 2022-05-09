@@ -1,21 +1,44 @@
 import config from './config.json'
+//import axios from 'axios'
+
+const axios = require('axios').default;
 
 const getCategoriesHelpful = async (page, helpful, category) => {
+
     var res = await fetch(`http://${config.server_host}:${config.server_port}/categoryhelpful/?page=${page}&helpful=${helpful}&category=${category}`, {
         method: 'GET',
-    })
-    return res.json()
+     })
+     return res.json()
+    
+    
 }
 
 const getProductsFromKeywords = async (page, word1, word2, price, priceHigh) => {
     var res = await fetch(`http://${config.server_host}:${config.server_port}/reviewwords?page=${page}&keyword1=${word1}&keyword2=${word2}&price=${price}&price2=${priceHigh}`, {
+       method: 'GET',
+    })
+   
+    return res.json();
+}
+
+const getRelatedProducts = async (page, category2) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/relatedproducts?page=${page}&category2=${category2}`, {
+        method: 'GET',
+    })
+
+    return res.json();
+}
+
+const getAboveRating = async (page, priceLow) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/aboverating?page=${page}&overallLow=${priceLow}}`, {
         method: 'GET',
     })
     return res.json()
+
 }
 
-const getMatch = async (id) => {
-    var res = await fetch(`http://${config.server_host}:${config.server_port}/match?id=${id}`, {
+const getMatch = async (page, asin) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/relatedproducts?page=${page}asin=${asin}`, {
         method: 'GET',
     })
     return res.json()
@@ -57,6 +80,8 @@ const getPlayerSearch = async (name, nationality, club, rating_high, rating_low,
 export {
     getCategoriesHelpful,
     getProductsFromKeywords,
+    getRelatedProducts,
+    getAboveRating,
     getMatch,
     getPlayer,
     getMatchSearch,
