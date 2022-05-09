@@ -9,23 +9,24 @@ import {
 
 class MenuBar extends React.Component {
     render() {
-        return(
-            <Navbar type="dark" theme="primary" expand="md">
-        <NavbarBrand href="/">CIS 550 FIFA</NavbarBrand>
+      const bigSize = {fontSize: '40px'}  
+      return(
+            <Navbar type="dark" theme="danger" expand="md">
+        <NavbarBrand style={bigSize} href="/">FitCheck</NavbarBrand>
           <Nav navbar>
           <NavItem>
-              <NavLink active href="/">
-                Home
+              <NavLink active href="/clothing_suggest">
+                Clothing Suggestions
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink active href="/players">
-                Players
+              <NavLink active href="/product_info">
+                Clothing Info
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink active  href="/matches" >
-                Matches
+              <NavLink active  href="/amazon_suggest" >
+                Amazon Specific Suggestions
               </NavLink>
             </NavItem>
           </Nav>

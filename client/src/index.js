@@ -8,6 +8,7 @@ import {
 
 import HomePage from './pages/HomePage';
 import PlayersPage from './pages/PlayersPage';
+import ProductSuggestionsPage from './pages/ProductSuggestionsPage';
 import 'antd/dist/antd.css';
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -24,9 +25,9 @@ ReactDOM.render(
 								<HomePage />
 							)}/>
         <Route exact
-							path="/players"
+							path="/clothing_suggest"
 							render={() => (
-								<PlayersPage />
+								<ProductSuggestionsPage />
 							)}/>
         <Route exact
 							path="/matches"
