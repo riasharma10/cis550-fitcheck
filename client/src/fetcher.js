@@ -49,11 +49,33 @@ const getInfoQuery1Search = async (item_id, size, page) => {
     return res.json()
 }
 
+const getProductSuggestions = async (bodytype, bust, age_high, age_low, page) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/productuserinfo/?userbodytype=${bodytype}&bustApprox=${bust}&ageupperbound=${age_high}&agelowerbound=${age_low}&page=${page}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
 const getInfoQuery2Search = async (item_id, rating, page) => {
     var res = await fetch(`http://${config.server_host}:${config.server_port}/getProductFromRating?item_id=${item_id}&rating=${rating}&page=${page}`, {
         method: 'GET',
     })
     console.log(res)
+    return res.json()
+}
+
+const getBodyTypeCounts = async (page) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/bodytype/?page=${page}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
+const getTopProductsByCategorySize = async (category, size, page) => {
+    console.log("in fetcher");
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/top_category_size/?category=${category}&size=${size}&page=${page}`, {
+        method: 'GET',
+    })
     return res.json()
 }
 
@@ -75,5 +97,8 @@ export {
     getPlayerSearch,
     getInfoQuery1Search,
     getInfoQuery2Search,
-    getInfoQuery3Search
+    getInfoQuery3Search,
+    getProductSuggestions,
+    getBodyTypeCounts,
+    getTopProductsByCategorySize
 }

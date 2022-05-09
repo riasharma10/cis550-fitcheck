@@ -23,13 +23,14 @@ async function productuserinfo(req, res) {
         const ageupperbound = parseInt(req.query.ageupperbound) ? req.query.ageupperbound : 115;
         const agelowerbound = parseInt(req.query.agelowerbound) ? req.query.agelowerbound : 0;
         const bustApprox = req.query.bustApprox;
-
-            connection.query(`SELECT R.item_id, fit, review_summary, rating
+        connection.query(`SELECT R.item_id, fit, review_summary, rating
         FROM Review_Rent R JOIN Transactions_Rent T ON R.user_id = T.user_id
         WHERE R.user_id IN (
             SELECT user_id
             FROM Customer_Rent
-        WHERE ((body_type = '${req.query.userbodytype}) AND ('${agelowerbound}' <= age <= '${ageupperbound}') AND (bust_size LIKE '%${bustApprox}%')
+        WHERE (body_type = '${req.query.userbodytype}') AND (${agelowerbound} <= age <= ${ageupperbound}) AND (bust_size = '${bustApprox}'))
+        GROUP BY R.item_id, fit, review_summary, rating
+        HAVING COUNT(*)=1
         `,  function (error, results, fields)
         {
 
@@ -37,7 +38,7 @@ async function productuserinfo(req, res) {
              console.log(error)
              res.json({ error: error })
          } else if (results) {
-             res.json({ results: results })
+            res.json({ results: results })
          }
         });
 
@@ -114,6 +115,7 @@ async function bodytype(req, res) {
    
      connection.query(`SELECT body_type, COUNT(DISTINCT p.size) AS num
         FROM  Customer_Rent c JOIN Transactions_Rent t ON c.user_id = t.user_id JOIN Product_Rent p ON t.item_id = p.item_id AND t.size = p.size
+        WHERE body_type IS NOT NULL
         GROUP BY body_type
         ORDER BY COUNT(DISTINCT p.size)`, function (error, results, fields)
 {
@@ -137,21 +139,22 @@ async function bodytype(req, res) {
 async function top_category_size(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
         
+        console.log("in route");
         const c = parseInt(req.query.category) ? req.query.category: "new";
-        const s = parseInt(req.query.size) ? req.query.size : 0; ;
+        const s = parseInt(req.query.size) ? req.query.size : 0; 
 
-     connection.query(`SELECT p.item_id, rating
+     connection.query(`SELECT DISTINCT p.item_id, rating
         FROM Product_Mod p 
         JOIN Review_Mod r ON p.item_id = r.item_id AND p.size = r.size
         WHERE p.category = '${c}' AND p.size = '${s}'
         ORDER BY rating DESC
-        LIMIT 50`, function (error, results, fields)
+        LIMIT 100`, function (error, results, fields)
 {
          if (error) {
              console.log(error)
              res.json({ error: error })
          } else if (results) {
-             res.json({ results: results })
+            res.json({ results: results })
          }
      });
 
