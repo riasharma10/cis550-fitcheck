@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormInput, FormGroup, Button, Card, CardBody, CardTitle, Progress } from "shards-react";
+import { Form, FormInput, FormGroup, Button} from "shards-react";
 
 import {
     Table,
@@ -8,20 +8,13 @@ import {
     Row,
     Col,
     Divider,
-    Slider,
-    Rate 
 } from 'antd'
-import { RadarChart } from 'react-vis';
-import { format } from 'd3-format';
 
 
 
 
 import MenuBar from '../components/MenuBar';
-import { getPlayerSearch, getPlayer } from '../fetcher'
 import { getInfoQuery1Search, getInfoQuery2Search, getInfoQuery3Search} from '../fetcher'
-import HomePage from './HomePage';
-const wideFormat = format('.3r');
 
 const infoQuery1Columns = [
     {
@@ -145,13 +138,6 @@ class ProductInfoPage extends React.Component {
             this.setState({ query1Results: res.results })
         })
 
-        // TASK 25: call getPlayer with the appropriate parameter and set update the correct state variable. 
-        // See the usage of getMatch in the componentDidMount method of MatchesPage for a hint! 
-        //getPlayer(this.state.selectedPlayerId).then(res => {
-            //console.log("selected player details", res.results)
-            //this.setState({ selectedPlayerDetails: res.results[0] })
-        //})
-
         getInfoQuery2Search(this.state.item_id2Query, this.state.rating2Query, 1).then(res => {
             this.setState({ query2Results: res.results })
         })
@@ -168,78 +154,122 @@ class ProductInfoPage extends React.Component {
             <div>
 
                 <MenuBar />
-                <Form style={{ width: '80vw', margin: '0 auto', marginTop: '5vh' }}>
-                <h3>For what purpose was this item rented for?</h3>
+                <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
+                <h3 font="Arial">For what purpose was this item rented for?</h3>
+                </div>
+                <table>
+                    <tr>
+                        <td>
+                        <div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
+                            </div>
+                        </td>
+                        <td>
+                        <Form style={{ width: '20vw', margin: '0 auto', marginTop: '5vh' }}>
                     <Row>
                         <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Item ID (Rent the Runway)</label>
                             <FormInput placeholder="Item ID" value={this.state.item_id1Query} onChange={this.handleItemId1QueryChange} />
                         </FormGroup></Col>
+
+                    </Row>
+                    <Row>
                         <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Size</label>
                             <FormInput placeholder="Size (number)" value={this.state.size1Query} onChange={this.handleSize1QueryChange} />
                         </FormGroup></Col>
-                        <Col flex={2}><FormGroup style={{ width: '10vw' }}>
-                            <Button style={{ marginTop: '4vh' }} onClick={this.updateSearchResults1}>Find out!</Button>
+                    </Row>
+                    <Row>
+                        <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
+                            <Button outline pill theme = "danger" style={{ marginTop: '4vh' }} onClick={this.updateSearchResults1}>Find out!</Button>
                         </FormGroup></Col>
-
                     </Row>
 
                 </Form>
+                        </td>
+                        <td>
+                        <div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
+                            </div>
+                        </td>
+                        <td><div style={{ width: '50vw', margin: '0 auto', marginTop: '2vh' }}>
+                            <Table dataSource={this.state.query1Results} columns={infoQuery1Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/></div></td>
+                    </tr>
+                </table>
 
                 <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
-                <Table dataSource={this.state.query1Results} columns={infoQuery1Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
-                                </div>
-
+                
+                </div>
 
                 <Divider />
+                <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
+                    <h3>What was the fit and reviews for this item for customers giving it this rating?</h3>
+                </div>
 
-                <Form style={{ width: '80vw', margin: '0 auto', marginTop: '5vh' }}>
-                <h3>What was the fit and reviews for this item for customers giving it this rating?</h3>
+                <table>
+                    <tr>
+                        <td><div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
+                
+                </div></td>
+                        <td><Form style={{ width: '20vw', margin: '0 auto', marginTop: '5vh' }}>
                 <Row>
                         <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Item ID (Rent the Runway)</label>
                             <FormInput placeholder="Item ID" value={this.state.item_id2Query} onChange={this.handleItemId2QueryChange} />
                         </FormGroup></Col>
-                        <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
+
+                    </Row>
+                    <Row>
+                    <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Rating</label>
                             <FormInput placeholder="Rating (number 1 - 10)" value={this.state.rating2Query} onChange={this.handleRating2QueryChange} />
                         </FormGroup></Col>
-                        <Col flex={2}><FormGroup style={{ width: '10vw' }}>
-                            <Button style={{ marginTop: '4vh' }} onClick={this.updateSearchResults2}>Find out!</Button>
-                        </FormGroup></Col>
-
                     </Row>
-                </Form>
-
-                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
+                    <Row>
+                    <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
+                            <Button outline pill theme = "danger" style={{ marginTop: '4vh' }} onClick={this.updateSearchResults2}>Find out!</Button>
+                        </FormGroup></Col>
+                    </Row>
+                </Form></td>
+                <td><div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
+                
+                </div></td>
+                        <td><div style={{ width: '50vw', margin: '0 auto', marginTop: '2vh' }}>
                 <Table dataSource={this.state.query2Results} columns={infoQuery2Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
-                                </div>
+                                </div></td>
+                    </tr>
+                </table>
 
 
                 <Divider />
 
-                <Form style={{ width: '80vw', margin: '0 auto', marginTop: '5vh' }}>
-                <h3>What was the average rating for this product</h3>
-                <Row>
+                <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
+                    <h3>What was the average rating for this product</h3>
+                </div>
+                <table>
+                    <tr>
+                        <td><div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
+                        </div></td>
+                        <td><Form style={{ width: '20vw', margin: '0 auto', marginTop: '5vh' }}>
+                    <Row>
                         <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Item ID (ModCloth)</label>
                             <FormInput placeholder="Item ID" value={this.state.item_id3Query} onChange={this.handleItemId3QueryChange} />
                         </FormGroup></Col>
-                        <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
+                    </Row>
+                    <Row><Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Size</label>
                             <FormInput placeholder="Size (number)" value={this.state.size3Query} onChange={this.handleSize3QueryChange} />
-                        </FormGroup></Col>
-                        <Col flex={2}><FormGroup style={{ width: '10vw' }}>
-                            <Button style={{ marginTop: '4vh' }} onClick={this.updateSearchResults3}>Find out!</Button>
-                        </FormGroup></Col>
-
-                    </Row>
-                </Form>
-
-                <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
+                        </FormGroup></Col></Row>
+                    <Row><Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
+                            <Button outline pill theme = "danger" style={{ marginTop: '4vh' }} onClick={this.updateSearchResults3}>Find out!</Button>
+                        </FormGroup></Col></Row>
+                </Form></td>
+                        <td><div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
+                        </div></td>
+                        <td><div style={{ width: '50vw', margin: '0 auto', marginTop: '2vh' }}>
                 <Table dataSource={this.state.query3Results} columns={infoQuery3Columns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
-                                </div>
+                                </div></td>
+                    </tr>
+                </table>
 
                 <Divider />
 

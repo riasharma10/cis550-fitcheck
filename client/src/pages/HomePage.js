@@ -7,6 +7,7 @@ import {
 
 import MenuBar from '../components/MenuBar';
 import { getAllMatches, getAllPlayers } from '../fetcher'
+
 const { Column, ColumnGroup } = Table;
 const { Option } = Select;
 

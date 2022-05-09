@@ -7,12 +7,13 @@ import {
     NavLink
   } from "shards-react";
 
+
 class MenuBar extends React.Component {
     render() {
         return(
-            <Navbar type="dark" theme="primary" expand="md">
+            <Navbar vertical type = "dark" theme = "danger" expand="md">
         <NavbarBrand href="/">FitCheck</NavbarBrand>
-          <Nav navbar>
+          <Nav vertical navbar>
           <NavItem>
               <NavLink active href="/clothing_suggest">
                 Clothing Suggestions
