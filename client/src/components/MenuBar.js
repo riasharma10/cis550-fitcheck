@@ -27,7 +27,7 @@ class MenuBar extends React.Component {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink active  href="/amazon_suggest" >
+              <NavLink active  href="/" >
                 Amazon Specific Suggestions
               </NavLink>
             </NavItem>
