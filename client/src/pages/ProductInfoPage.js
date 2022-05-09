@@ -63,7 +63,7 @@ class ProductInfoPage extends React.Component {
             
             query1Results: [],
             query2Results: [],
-            query3Results: []
+            query3Results: [],
 
         }
 
@@ -167,7 +167,9 @@ class ProductInfoPage extends React.Component {
                         <td>
                         <Form style={{ width: '20vw', margin: '0 auto', marginTop: '5vh' }}>
                     <Row>
-                        <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
+                        <Col flex={2}>
+        
+                            <FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Item ID (Rent the Runway)</label>
                             <FormInput placeholder="Item ID" value={this.state.item_id1Query} onChange={this.handleItemId1QueryChange} />
                         </FormGroup></Col>
@@ -176,7 +178,7 @@ class ProductInfoPage extends React.Component {
                     <Row>
                         <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Size</label>
-                            <FormInput placeholder="Size (number)" value={this.state.size1Query} onChange={this.handleSize1QueryChange} />
+                            <FormInput placeholder="Size (number from 0 to 30)" value={this.state.size1Query} onChange={this.handleSize1QueryChange} />
                         </FormGroup></Col>
                     </Row>
                     <Row>
@@ -258,7 +260,7 @@ class ProductInfoPage extends React.Component {
                     </Row>
                     <Row><Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Size</label>
-                            <FormInput placeholder="Size (number)" value={this.state.size3Query} onChange={this.handleSize3QueryChange} />
+                            <FormInput placeholder="Size (number from 0 to 30)" value={this.state.size3Query} onChange={this.handleSize3QueryChange} />
                         </FormGroup></Col></Row>
                     <Row><Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <Button outline pill theme = "danger" style={{ marginTop: '4vh' }} onClick={this.updateSearchResults3}>Find out!</Button>
