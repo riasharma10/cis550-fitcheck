@@ -25,7 +25,7 @@ ReactDOM.render(
 								<HomePage />
 							)}/>
         <Route exact
-							path="/players"
+							path="/clothing_suggest"
 							render={() => (
 								<ProductSuggestionsPage />
 							)}/>

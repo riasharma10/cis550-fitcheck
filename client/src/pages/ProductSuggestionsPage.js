@@ -271,6 +271,7 @@ class ProductSuggestionsPage extends React.Component {
                             <FormInput placeholder="Category" value={this.state.categoryQuery} onChange={this.handleCategoryQueryChange} />
                         </FormGroup></Col>
                     </Row>
+                    <br></br>
                     <Row>
                     <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
                             <label>Size</label>

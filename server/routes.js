@@ -29,6 +29,8 @@ async function productuserinfo(req, res) {
             SELECT user_id
             FROM Customer_Rent
         WHERE (body_type = '${req.query.userbodytype}') AND (${agelowerbound} <= age <= ${ageupperbound}) AND (bust_size = '${bustApprox}'))
+        GROUP BY R.item_id, fit, review_summary, rating
+        HAVING COUNT(*)=1
         `,  function (error, results, fields)
         {
 
