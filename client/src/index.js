@@ -24,11 +24,6 @@ ReactDOM.render(
 							render={() => (
 								<HomePage />
 							)}/>
-        <Route exact
-							path="/players"
-							render={() => (
-								<PlayersPage />
-							)}/>
 		<Route exact
 							path="/product_info"
 							render={() => (
