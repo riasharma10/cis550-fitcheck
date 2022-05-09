@@ -7,7 +7,9 @@ import {
     NavLink
   } from "shards-react";
 
+
 class MenuBar extends React.Component {
+  
     render() {
       const bigSize = {fontSize: '40px'}  
       return(
