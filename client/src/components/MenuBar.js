@@ -9,11 +9,13 @@ import {
 
 
 class MenuBar extends React.Component {
+  
     render() {
+      const bigSize = {fontSize: '40px'}
         return(
-            <Navbar vertical type = "dark" theme = "danger" expand="md">
-        <NavbarBrand href="/">FitCheck</NavbarBrand>
-          <Nav vertical navbar>
+            <Navbar type = "dark" theme = "danger" expand="md">
+        <NavbarBrand style = {bigSize} href="/">FitCheck</NavbarBrand>
+          <Nav navbar>
           <NavItem>
               <NavLink active href="/clothing_suggest">
                 Clothing Suggestions

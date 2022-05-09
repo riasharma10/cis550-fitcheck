@@ -149,13 +149,14 @@ class ProductInfoPage extends React.Component {
     }
 
     render() {
+        const blueText = {color: '#1e8d9e'}
         return (
 
             <div>
 
                 <MenuBar />
                 <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
-                <h3 font="Arial">For what purpose was this item rented for?</h3>
+                <h3 style = {blueText}>For what purpose was this item rented for?</h3>
                 </div>
                 <table>
                     <tr>
@@ -201,7 +202,7 @@ class ProductInfoPage extends React.Component {
 
                 <Divider />
                 <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
-                    <h3>What was the fit and reviews for this item for customers giving it this rating?</h3>
+                    <h3 style = {blueText}>What was the fit and reviews for this item for customers giving it this rating?</h3>
                 </div>
 
                 <table>
@@ -242,7 +243,7 @@ class ProductInfoPage extends React.Component {
                 <Divider />
 
                 <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
-                    <h3>What was the average rating for this product</h3>
+                    <h3 style = {blueText}>What was the average rating for this product?</h3>
                 </div>
                 <table>
                     <tr>
