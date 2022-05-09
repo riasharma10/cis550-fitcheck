@@ -17,10 +17,13 @@ import { format } from 'd3-format';
 
 
 
+
 import MenuBar from '../components/MenuBar';
 import { getPlayerSearch, getPlayer, getProductSuggestions, getBodyTypeCounts, getTopProductsByCategorySize } from '../fetcher'
 import HomePage from './HomePage';
 const wideFormat = format('.3r');
+
+const { Option } = Select;
 
 const query1Columns = [
     {
@@ -114,13 +117,13 @@ class ProductSuggestionsPage extends React.Component {
 
     
 
-    handleBodyTypeQueryChange(event) {
-        this.setState({ bodyTypeQuery: event.target.value })
+    handleBodyTypeQueryChange(value) {
+        this.setState({ bodyTypeQuery: value })
     }
 
-    handleBustQueryChange(event) {
+    handleBustQueryChange(value) {
         // TASK 20: update state variables appropriately. See handleNameQueryChange(event) for reference
-        this.setState({bustQuery: event.target.value})
+        this.setState({bustQuery: value})
     }
 
     handleAgeChange(value) {
@@ -128,8 +131,8 @@ class ProductSuggestionsPage extends React.Component {
         this.setState({ ageHighQuery: value[1] })
     }
 
-    handleCategoryQueryChange(event) {
-        this.setState({ categoryQuery: event.target.value })
+    handleCategoryQueryChange(value) {
+        this.setState({ categoryQuery: value })
     }
 
     handleSizeQueryChange(event) {
@@ -192,17 +195,48 @@ class ProductSuggestionsPage extends React.Component {
                             </div></td>
                         <td><Form style={{ width: '20vw', margin: '0 auto', marginTop: '5vh' }}>
                     <Row>
-                        <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
-                            <label>BodyType</label>
-                            <FormInput placeholder="BodyType" value={this.state.bodyTypeQuery} onChange={this.handleBodyTypeQueryChange} />
-                        </FormGroup></Col>
+                    <Col flex={2}>
+                    
+                    <Select defaultValue="hourglass" style={{ width: '20vw' }} onChange={this.handleBodyTypeQueryChange}>
+                        <Option value="hourglass">Hourglass</Option>
+                        <Option value="petite">Petite</Option>
+                        <Option value="athletic">Athletic</Option>
+                        <Option value="straight & narrow">Straight & Narrow</Option>
+                        <Option value="full bust">Full Bust</Option>
+                        <Option value="pear">Pear</Option>
+                        <Option value="apple">Apple</Option>
+                    </Select>
+                    </Col>
+                        
                     </Row>
                     <br></br>
                     <Row>
-                    <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
-                            <label>Bust</label>
-                            <FormInput placeholder="Bust" value={this.state.bustQuery} onChange={this.handleBustQueryChange} />
-                        </FormGroup></Col>
+                        <Col flex={2}>
+                            
+                            <Select defaultValue="32d" style={{ width: '20vw' }} onChange={this.handleBustQueryChange}>
+                                <Option value="32d">32d</Option>
+                                <Option value="32b">32b</Option>
+                                <Option value="32c">32c</Option>
+                                <Option value="32d">32d</Option>
+                                <Option value="36dd">34dd</Option>
+                                <Option value="34a">34a</Option>
+                                <Option value="34b">34b</Option>
+                                <Option value="34c">34c</Option>
+                                <Option value="34d">34d</Option>
+                                <Option value="34dd">34dd</Option>
+                                <Option value="34g">34g</Option>
+                                <Option value="36a">34a</Option>
+                                <Option value="36b">34d</Option>
+                                <Option value="36c">34d</Option>
+                                <Option value="36d">34d</Option>
+                                <Option value="36d+">34d+</Option>
+                                <Option value="38c">38c</Option>
+                                <Option value="38d">38d</Option>
+
+
+                            </Select>
+                            </Col>
+                    
                     </Row>
                     <br></br>
                     <Row>
@@ -266,15 +300,22 @@ class ProductSuggestionsPage extends React.Component {
                         <td>
                         <Form style={{ width: '20vw', margin: '0 auto', marginTop: '5vh' }}>
                     <Row>
-                        <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
-                            <label>Category</label>
-                            <FormInput placeholder="Category" value={this.state.categoryQuery} onChange={this.handleCategoryQueryChange} />
-                        </FormGroup></Col>
+                        <Col flex={2}>
+                        
+                        <Select defaultValue="dresses" style={{ width: '20vw' }} onChange={this.handleCategoryQueryChange}>
+                            <Option value="dresses">Dresses</Option>
+                            <Option value="wedding">Wedding</Option>
+                            <Option value="tops">Tops</Option>
+                            <Option value="bottoms">Bottoms</Option>
+                            <Option value="shift">Shift</Option>
+                            <Option value="outerwear">Outerwear</Option>
+                        </Select>
+                        </Col>
                     </Row>
                     <br></br>
                     <Row>
                     <Col flex={2}><FormGroup style={{ width: '20vw', margin: '0 auto' }}>
-                            <label>Size</label>
+                            <label>Size (number from 0 to 40)</label>
                             <FormInput placeholder="Size" value={this.state.sizeQuery} onChange={this.handleSizeQueryChange} />
                         </FormGroup></Col>
                     </Row>
