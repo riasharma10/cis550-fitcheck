@@ -12,7 +12,7 @@ class MenuBar extends React.Component {
         return(
             <Navbar type="dark" theme="danger" expand="md">
         <NavbarBrand href="/">CIS 550 FIFA</NavbarBrand>
-          <Nav vertical navbar>
+          <Nav navbar>
           <NavItem>
               <NavLink active href="/">
                 Home

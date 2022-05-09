@@ -175,6 +175,7 @@ class ProductSuggestionsPage extends React.Component {
     }
 
     render() {
+        const blueText = {color: '#1e8d9e'}
         return (
 
             <div>
@@ -182,7 +183,7 @@ class ProductSuggestionsPage extends React.Component {
                 <MenuBar />
 
                 <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
-                    <h3>Do you want personalized product suggestions based on reviews from customers with similar body types, bust sizes, and/or ages?</h3>
+                    <h3 style={blueText}>Do you want personalized product suggestions based on reviews from customers with similar body types, bust sizes, and/or ages?</h3>
                 </div>
 
                 <table>
@@ -231,7 +232,7 @@ class ProductSuggestionsPage extends React.Component {
 
                 <Divider />
                 <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
-                    <h3>Do you want to know how many distinct sizes customers of each body type have purchased?</h3>
+                    <h3 style={blueText}>Do you want to know how many distinct sizes customers of each body type have purchased?</h3>
                 </div>
                 <table>
                     <tr>
@@ -255,7 +256,7 @@ class ProductSuggestionsPage extends React.Component {
                 <Divider />
 
                 <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
-                    <h3>Do you want to see the top 100 products for a certain category and size? </h3>
+                    <h3 style={blueText}>Do you want to see the top 100 products for a certain category and size? </h3>
                 </div>
 
                 <table>
