@@ -31,6 +31,11 @@ class MenuBar extends React.Component {
                 Amazon Specific Suggestions
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink active href="/graph_page">
+                Analytics
+              </NavLink>
+            </NavItem>
           </Nav>
       </Navbar>
         )

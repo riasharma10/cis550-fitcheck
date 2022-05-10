@@ -207,10 +207,17 @@ async function avg_rating(req, res) {
 
             console.log("before connection in reviewword")
        
-         connection.query(`SELECT p.title as ProductTitle, overall as AvgRating, p.imUrl as image, p.price as price, r.reviewText as review
+         connection.query(`SELECT p.title as ProductTitle, AVG(r.overall) as AvgRating, p.price as price, r.reviewText as review
          FROM Amazon_Product p NATURAL JOIN Amazon_Review r
-         WHERE (p.price < '${price2}') AND (p.price > '${price1}') AND (reviewText LIKE '%${word1}%')
-         ORDER BY overall DESC`, function (error, results, fields)
+         WHERE (p.price < '${price2}') AND (p.price > '${price1}') AND
+         EXISTS (SELECT asin
+         FROM Amazon_Review subRev1
+         WHERE subRev1.asin = p.asin AND (subRev1.reviewText LIKE '%${word1}%')) OR
+         EXISTS (SELECT asin
+         FROM Amazon_Review subRev2
+         WHERE subRev2.asin = p.asin AND (subRev2.reviewText LIKE '%${word2}%'))
+         GROUP BY p.asin
+         ORDER BY AVG(r.overall) DESC`, function (error, results, fields)
  {
              if (error) {
                  console.log(error)
@@ -355,6 +362,60 @@ async function aboverating(req, res) {
      }
 }
 
+// Graph Query 1
+async function avgpricegraph(req, res) {
+    if (req.query.page && !isNaN(req.query.page)) {
+        
+        console.log("before the graph query")
+     connection.query(`SELECT AC.category2, AVG(AP.price) AS AvgPricePerCategory
+     FROM Amazon_Product AP JOIN Amazon_Categories AC on AP.asin = AC.asin
+     GROUP BY category2
+     ORDER BY AvgPricePerCategory DESC
+     LIMIT 10
+     `, function (error, results, fields)
+        {
+         if (error) {
+             console.log(error)
+             res.json({ error: error })
+         } else if (results) {
+            console.log("graph query succeeded")
+             res.json({ results: results })
+         }
+     });
+
+ } else {
+    console.log("page not defined")
+    res.json({message: "in the error field -- page was not defined"});
+     }
+}
+
+//Graph Query 2
+async function numProductGraph(req, res) {
+    if (req.query.page && !isNaN(req.query.page)) {
+        
+        console.log("before the graph query")
+     connection.query(`SELECT AC.category2, COUNT(AP.asin) AS NumProducts
+     FROM Amazon_Product AP JOIN Amazon_Categories AC on AP.asin = AC.asin
+     GROUP BY category2
+     ORDER BY NumProducts DESC
+     LIMIT 10`, function (error, results, fields)
+        {
+         if (error) {
+             console.log(error)
+             res.json({ error: error })
+         } else if (results) {
+            console.log("graph query succeeded")
+             res.json({ results: results })
+         }
+     });
+
+ } else {
+    console.log("page not defined")
+    res.json({message: "in the error field -- page was not defined"});
+     }
+}
+
+
 
 
 
@@ -372,5 +433,7 @@ module.exports = {
     avg_rating,
     bodytype,
     getProductFromRating,
-    top_category_size
+    top_category_size,
+    avgpricegraph,
+    numProductGraph,
 }

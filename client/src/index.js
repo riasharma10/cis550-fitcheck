@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
+import GraphPage from './pages/Graphs';
 import ProductInfoPage from './pages/ProductInfoPage';
 import ProductSuggestionsPage from './pages/ProductSuggestionsPage';
 import 'antd/dist/antd.css';
@@ -33,6 +34,11 @@ ReactDOM.render(
 							render={() => (
 								<ProductSuggestionsPage />
 							)}/>
+		<Route exact
+							path="/graph_page"
+							render={() => (
+								<GraphPage />
+							)}/>					
       </Switch>
     </Router>
   </div>,

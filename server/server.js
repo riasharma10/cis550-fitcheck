@@ -41,7 +41,9 @@ app.get('/relatedproducts', routes.relatedproducts)
 // Route 10
 app.get('/aboverating', routes.aboverating)
 
+app.get('/avgpricegraph', routes.avgpricegraph)
 
+app.get('/numProductGraph', routes.numProductGraph)
 
 
 

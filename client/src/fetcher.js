@@ -78,6 +78,20 @@ const getInfoQuery3Search = async (item_id, size, page) => {
     return res.json()
 }
 
+const getAvgPrice = async () => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/avgpricegraph?page=1`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
+const getNumProducts = async () => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/numProductGraph?page=1`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
 
 
 export {
@@ -90,5 +104,7 @@ export {
     getInfoQuery3Search,
     getProductSuggestions,
     getBodyTypeCounts,
-    getTopProductsByCategorySize
+    getTopProductsByCategorySize,
+    getNumProducts,
+    getAvgPrice
 }

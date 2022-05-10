@@ -244,24 +244,25 @@ class HomePage extends React.Component {
 
   componentDidMount() {
     
+    //route for the categories 
     getCategoriesHelpful(1, 0.2, 'Women').then(res => {
       this.setState({ categoryResults: res.results })
       console.log("results: ", res.results)
     });
 
-    
+    // first route for the keyword query
     getProductsFromKeywords(1, "greg", "zzz", 7, 15).then(res => {
       this.setState({ keywordResults: res.results})
       console.log("results", res.results)
     });
     
-    
+    // routes for related products
     getRelatedProducts(1, "Women").then(res => {
       this.setState({ relatedProductResults: res.results})
       console.log("relatedProducts", res.results)
     })
     
-    
+    // related for above a brand rating query
     getAboveRating(1, 3, 5).then(res => {
       this.setState({ aboveRatingResults: res.results})
       console.log("above rating", res.results)
@@ -288,7 +289,6 @@ class HomePage extends React.Component {
             <Col flex={1}>
               <Select defaultValue="Women" style={{ width: 120 }} onChange={this.categoryOnChange}>
                 <Option value="Novelty, Costumes & More">Novelty, Costumes & More</Option>
-                {/* TASK 3: Take a look at Dataset Information.md from MS1 and add other options to the selector here  */}
                 <Option value="Girls">Girls</Option>
                 <Option value="Sports">Sports</Option>
                 <Option value="Men">Men</Option>
@@ -308,7 +308,6 @@ class HomePage extends React.Component {
             <Col style={{ marginTop: '2vh' }} flex={1}>
               <Select defaultValue="0" style={{ width: 120 }} onChange={this.helpOnChange}>
                 <Option value="2">0</Option>
-                {/* TASK 3: Take a look at Dataset Information.md from MS1 and add other options to the selector here  */}
                 <Option value=".1">1</Option>
                 <Option value=".2">2</Option>
                 <Option value=".3">3</Option>
@@ -325,6 +324,7 @@ class HomePage extends React.Component {
           <Row>
           <Col flex={35}>
             <FormGroup style={{ width: '15vw' }}>
+              {/* Search button*/}
               <Button outline pill theme = "danger" style={{ marginTop: '2vh' }} onClick={this.updateSearchHelpfulCategory}>Search</Button>
             </FormGroup>
           </Col>
@@ -332,16 +332,10 @@ class HomePage extends React.Component {
              <td><div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
               </div></td>
              <td><div style={{ width: '50vw', margin: '0 auto', marginTop: '2vh' }}>
-             <Table onRow={(record, rowIndex) => {
-    return {
-      onClick: event => {this.goToMatch(record.MatchId)}, // clicking a row takes the user to a detailed view of the match in the /matches page using the MatchId parameter  
-    };
-  }} dataSource={this.state.categoryResults} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}>
-              {/* TASK 4: correct the title for the 'Home' column and add a similar column for 'Away' team in this ColumnGroup */}
+             <Table  dataSource={this.state.categoryResults} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}>
               <Column title="Product Id" dataIndex="asin" key="asin" sorter= {(a, b) => a.asin.localeCompare(b.asin)}/>
               <Column title="Name" dataIndex="title" key="title" sorter= {(a, b) => a.avg_rating.localeCompare(b.avg_rating)}/>
               <Column title="Average Rating" dataIndex="avg_rating" key="avg_rating" sorter= {(a, b) => a.title.localeCompare(b.title)}/>
-             {/* TASK 6: create two columns (independent - not in a column group) for the date and time. Do not add a sorting functionality */}
           </Table>
               </div>
                </td>
@@ -360,6 +354,7 @@ class HomePage extends React.Component {
               <td><div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
               </div></td>
               <td><Row gutter='30' align='middle' justify='center'>
+                {/* Keyword input 1*/}
               <Col flex={2}><FormGroup style={{ width: '15vw', margin: '0 auto' }}>
                   <label>Keyword 1</label>
                   <FormInput placeholder="Greg" value={this.state.keyWord1Query} onChange={this.handleKeyWord1QueryChange} />
@@ -367,15 +362,20 @@ class HomePage extends React.Component {
               
           </Row>
 
-          <Row><Col flex={2}><FormGroup style={{ width: '15vw', margin: '0 auto' }}>
+          <Row>
+            {/* Keyword input 2*/}
+            <Col flex={2}><FormGroup style={{ width: '15vw', margin: '0 auto' }}>
                   <label>Keyword 2</label>
                   <FormInput placeholder="ZZZ" value={this.state.keyWord2Query} onChange={this.handleKeyWord2QueryChange} />
               </FormGroup></Col></Row>
-          <Row><Col flex={2}><FormGroup style={{ width: '15vw', margin: '0 auto' }}>
+          <Row>
+            {/* Price Input*/}
+            <Col flex={2}><FormGroup style={{ width: '15vw', margin: '0 auto' }}>
                   <label>Price</label>
                   <Slider range defaultValue={[1, 300]} onChange={this.handlePriceChange} />
               </FormGroup></Col></Row>
           <Row><Col flex={2}><FormGroup style={{ width: '15vw', margin: '0 auto' }}>
+            {/* Search button*/}
                               <Button outline pill theme = "danger" style={{ marginTop: '4vh' }} onClick={this.keywordOnChange}>Search</Button>
                           </FormGroup></Col></Row></td>
               <td><div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
@@ -398,8 +398,8 @@ class HomePage extends React.Component {
               <td><Row gutter='30' align='middle' justify='center'>
               <Col flex={2}>
               <Select defaultValue="Women" style={{ width: 120 }} onChange={this.handleRelatedCategoryChange}>
+                {/* Option drop down for categories*/}
                 <Option value="Novelty, Costumes & More">Novelty, Costumes & More</Option>
-                {/* TASK 3: Take a look at Dataset Information.md from MS1 and add other options to the selector here  */}
                 <Option value="Girls">Girls</Option>
                 <Option value="Sports">Sports</Option>
                 <Option value="Men">Men</Option>
@@ -414,6 +414,7 @@ class HomePage extends React.Component {
           </Row>
           <Row><Col flex={2}>
                 <FormGroup style={{ width: '15vw' }}>
+                  {/* Search button*/}
                     <Button outline pill theme = "danger" style={{ marginTop: '4vh' }} onClick={this.relatedProductsOnChange}>Search</Button>
                 </FormGroup></Col>  </Row></td>
               <td><div style={{ width: '10vw', margin: '0 auto', marginTop: '2vh' }}>
@@ -437,8 +438,8 @@ class HomePage extends React.Component {
               <td><Row gutter='30' align='middle' justify='center'>
           <Col flex={2}>
                 <Select defaultValue="0" style={{ width: 120 }} onChange={this.aboveRatingChange}>
+                  {/* baseline rating input*/}
                     <Option value="0">0</Option>
-                    {/* TASK 3: Take a look at Dataset Information.md from MS1 and add other options to the selector here  */}
                     <Option value="1">1</Option>
                     <Option value="2">2</Option>
                     <Option value="3">3</Option>
@@ -451,6 +452,7 @@ class HomePage extends React.Component {
           </Row>
           <Row><Col flex={2}>
                 <FormGroup style={{ width: '15vw' }}>
+                   {/* Search button*/}
                     <Button outline pill theme = "danger" style={{ marginTop: '4vh' }} onClick={this.handleAboveRatingChance}>Search</Button>
                 </FormGroup>
               </Col></Row></td>
