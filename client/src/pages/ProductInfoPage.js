@@ -16,6 +16,8 @@ import {
 import MenuBar from '../components/MenuBar';
 import { getInfoQuery1Search, getInfoQuery2Search, getInfoQuery3Search} from '../fetcher'
 
+// Column structure to display results of each of the queries
+// Query 1 For a certain product in RentTheRunway return which purposes it has been rented for (can be used for advertising / marketing purposes)
 const infoQuery1Columns = [
     {
         title: 'Purposes',
@@ -25,6 +27,7 @@ const infoQuery1Columns = [
     }
 ];
 
+// Query 2 Based on inputted item_id in RentTheRunway and a desired rating, find all reviews and fit with that rating for that product
 const infoQuery2Columns = [
     {
         title: 'Review',
@@ -41,6 +44,7 @@ const infoQuery2Columns = [
     }
 ];
 
+// Query 3 Given a product in ModCloth (item_id i and size s) return its average rating
 const infoQuery3Columns = [
     {
         title: 'Average Rating',
@@ -54,6 +58,8 @@ class ProductInfoPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+
+            //Inputs for the queries
             item_id1Query: '',
             size1Query: '',
             item_id2Query: '',
@@ -61,6 +67,7 @@ class ProductInfoPage extends React.Component {
             item_id3Query: '',
             size3Query: '',
             
+            //Stores results of the queries
             query1Results: [],
             query2Results: [],
             query3Results: [],
@@ -79,6 +86,7 @@ class ProductInfoPage extends React.Component {
         this.handleSize3QueryChange = this.handleSize3QueryChange.bind(this)
     }
 
+    // Updates state with changing inputs
     handleItemId1QueryChange(event) {
         console.log("item_id1 is changing: ", event.target.value)
         this.setState({ item_id1Query: event.target.value })
@@ -109,8 +117,7 @@ class ProductInfoPage extends React.Component {
         this.setState({ size3Query: event.target.value })
     }
 
-    //NEW STUFF
-
+    //Updates the state of the results when query is run
     updateSearchResults1() {
 
         getInfoQuery1Search(this.state.item_id1Query, this.state.size1Query, 1).then(res => {
@@ -132,7 +139,7 @@ class ProductInfoPage extends React.Component {
         })
     }
 
-    //HOW DO I SEPARATE THIS OUT FOR 3?
+    // Initializes the state of the query results when component is mounted
     componentDidMount() {
         getInfoQuery1Search(this.state.item_id1Query, this.state.size1Query, 1).then(res => {
             this.setState({ query1Results: res.results })
@@ -148,13 +155,15 @@ class ProductInfoPage extends React.Component {
 
     }
 
+    // Renders the page
     render() {
-        const blueText = {color: '#1e8d9e'}
+        const blueText = {color: '#1e8d9e'} // Set color for the query titles on page
         return (
 
             <div>
 
                 <MenuBar />
+
                 <div style={{ width: '80vw', margin: '0 auto', marginTop: '2vh' }}>
                 <h3 style = {blueText}>For what purpose was this item rented for?</h3>
                 </div>

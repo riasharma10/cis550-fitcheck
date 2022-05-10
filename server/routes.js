@@ -15,7 +15,7 @@ connection.connect();
 
 /******************************************************* */
 
-//Route 1
+//Route 1 - check fetcher.js for route description
 async function productuserinfo(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
      // This is the case where page is defined.
@@ -24,7 +24,7 @@ async function productuserinfo(req, res) {
         const agelowerbound = parseInt(req.query.agelowerbound) ? req.query.agelowerbound : 0;
         const bustApprox = req.query.bustApprox;
         connection.query(`SELECT R.item_id, fit, review_summary, rating
-        FROM Review_Rent R JOIN Transactions_Rent T ON R.user_id = T.user_id
+        FROM Review_Rent R
         WHERE R.user_id IN (
             SELECT user_id
             FROM Customer_Rent
@@ -50,7 +50,7 @@ async function productuserinfo(req, res) {
 
 
 
-//Route 2:
+//Route 2: - check fetcher.js for route description
 
 async function purposes(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
@@ -81,7 +81,7 @@ async function purposes(req, res) {
 }
 
 
-//Route 3:
+//Route 3: - check fetcher.js for route description
 async function getProductFromRating(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
 
@@ -108,13 +108,13 @@ async function getProductFromRating(req, res) {
 }
 
 
-//Route 4:
+//Route 4: - check fetcher.js for route description
 
 async function bodytype(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
    
      connection.query(`SELECT body_type, COUNT(DISTINCT p.size) AS num
-        FROM  Customer_Rent c JOIN Transactions_Rent t ON c.user_id = t.user_id JOIN Product_Rent p ON t.item_id = p.item_id AND t.size = p.size
+        FROM  Customer_Rent c JOIN Review_Rent t ON c.user_id = t.user_id JOIN Product_Rent p ON t.item_id = p.item_id AND t.size = p.size
         WHERE body_type IS NOT NULL
         GROUP BY body_type
         ORDER BY COUNT(DISTINCT p.size)`, function (error, results, fields)
@@ -134,7 +134,7 @@ async function bodytype(req, res) {
 }
 
 
-//Route 5:
+//Route 5: - check fetcher.js for route description
 
 async function top_category_size(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {
@@ -165,7 +165,7 @@ async function top_category_size(req, res) {
 }
 
 
-//Route 6:
+//Route 6: - check fetcher.js for route description
 
 async function avg_rating(req, res) {
     if (req.query.page && !isNaN(req.query.page)) {

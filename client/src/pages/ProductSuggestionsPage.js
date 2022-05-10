@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormInput, FormGroup, Button, Card, CardBody, CardTitle, Progress } from "shards-react";
+import { Form, FormInput, FormGroup, Button} from "shards-react";
 
 import {
     Table,
@@ -9,9 +9,7 @@ import {
     Col,
     Divider,
     Slider,
-    Rate 
 } from 'antd'
-import { RadarChart } from 'react-vis';
 import { format } from 'd3-format';
 
 
@@ -19,12 +17,11 @@ import { format } from 'd3-format';
 
 
 import MenuBar from '../components/MenuBar';
-import { getPlayerSearch, getPlayer, getProductSuggestions, getBodyTypeCounts, getTopProductsByCategorySize } from '../fetcher'
-import HomePage from './HomePage';
-const wideFormat = format('.3r');
+import {getProductSuggestions, getBodyTypeCounts, getTopProductsByCategorySize } from '../fetcher'
 
 const { Option } = Select;
 
+// getProductSuggestions returns item_id, fit feedback, review summary, and rating
 const query1Columns = [
     {
         title: 'item_id',
@@ -51,9 +48,9 @@ const query1Columns = [
         sorter: (a, b) => a.rating - b.rating
         
       }
-    // TASK 19: copy over your answers for tasks 7 - 9 to add columns for potential, club, and value
 ];
 
+// getBodyTypeCounts returns body types with their respective sizes
 const query2Columns = [
     {
         title: 'body_type',
@@ -67,9 +64,9 @@ const query2Columns = [
         key: 'num',
         sorter: (a, b) => a.num - b.num
     }
-    // TASK 19: copy over your answers for tasks 7 - 9 to add columns for potential, club, and value
 ];
 
+// getTopProductsByCategorySize returns item ids as well as their ratings
 const query3Columns = [
     {
         title: 'item_id',
@@ -83,7 +80,6 @@ const query3Columns = [
         key: 'rating',
         sorter: (a, b) => a.rating - b.rating
     }
-    // TASK 19: copy over your answers for tasks 7 - 9 to add columns for potential, club, and value
 ];
 
 
@@ -97,8 +93,7 @@ class ProductSuggestionsPage extends React.Component {
             ageLowQuery: 0,
             categoryQuery: '',
             sizeQuery: '',
-            //selectedPlayerId: window.location.search ? window.location.search.substring(1).split('=')[1] : 229594,
-            //selectedPlayerDetails: null,
+
             productSuggestionsResults: [],
             query2results: [],
             query3results: []
@@ -122,7 +117,6 @@ class ProductSuggestionsPage extends React.Component {
     }
 
     handleBustQueryChange(value) {
-        // TASK 20: update state variables appropriately. See handleNameQueryChange(event) for reference
         this.setState({bustQuery: value})
     }
 
@@ -140,40 +134,24 @@ class ProductSuggestionsPage extends React.Component {
     }
 
     updateSearchResults() {
-
-        //TASK 23: call getPlayerSearch and update playerResults in state. See componentDidMount() for a hint
         getProductSuggestions(this.state.bodyTypeQuery, this.state.bustQuery, this.state.ageHighQuery, this.state.ageLowQuery, 1).then(res => {
             this.setState({ productSuggestionsResults: res.results })
         })
     }
 
     updateSearch2Results() {
-
-        //TASK 23: call getPlayerSearch and update playerResults in state. See componentDidMount() for a hint
         getBodyTypeCounts(1).then(res => {
             this.setState({ query2results: res.results })
         })
     }
 
     updateSearch3Results() {
-
-        //TASK 23: call getPlayerSearch and update playerResults in state. See componentDidMount() for a hint
         getTopProductsByCategorySize(this.state.categoryQuery, this.state.sizeQuery, 1).then(res => {
             this.setState({ query3results: res.results })
         })
     }
 
     componentDidMount() {
-        
-
-        // TASK 25: call getPlayer with the appropriate parameter and set update the correct state variable. 
-        // See the usage of getMatch in the componentDidMount method of MatchesPage for a hint! 
-        /*
-        getPlayer(this.state.selectedPlayerId).then(res => {
-            console.log("selected player details", res.results)
-            this.setState({ selectedPlayerDetails: res.results[0] })
-        })
-        */
 
     }
 

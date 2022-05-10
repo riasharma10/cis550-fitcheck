@@ -34,6 +34,7 @@ const getAboveRating = async (page, priceLow) => {
 
 }
 
+// For a certain product return which purposes it has been rented for (can be used for advertising / marketing purposes)
 const getInfoQuery1Search = async (item_id, size, page) => {
     var res = await fetch(`http://${config.server_host}:${config.server_port}/purposes?item_id=${item_id}&size=${size}&page=${page}`, {
         method: 'GET',
@@ -41,6 +42,7 @@ const getInfoQuery1Search = async (item_id, size, page) => {
     return res.json()
 }
 
+// Returns personalized product suggestions based on input bust size, body type, and age range
 const getProductSuggestions = async (bodytype, bust, age_high, age_low, page) => {
     var res = await fetch(`http://${config.server_host}:${config.server_port}/productuserinfo/?userbodytype=${bodytype}&bustApprox=${bust}&ageupperbound=${age_high}&agelowerbound=${age_low}&page=${page}`, {
         method: 'GET',
@@ -48,6 +50,7 @@ const getProductSuggestions = async (bodytype, bust, age_high, age_low, page) =>
     return res.json()
 }
 
+// Based on inputted item_id in RentTheRunway and a desired rating, find all reviews and fit with that rating for that product
 const getInfoQuery2Search = async (item_id, rating, page) => {
     var res = await fetch(`http://${config.server_host}:${config.server_port}/getProductFromRating?item_id=${item_id}&rating=${rating}&page=${page}`, {
         method: 'GET',
@@ -56,6 +59,7 @@ const getInfoQuery2Search = async (item_id, rating, page) => {
     return res.json()
 }
 
+// Returns the numbers of distinct sizes customers of each body type have purchased
 const getBodyTypeCounts = async (page) => {
     var res = await fetch(`http://${config.server_host}:${config.server_port}/bodytype/?page=${page}`, {
         method: 'GET',
@@ -63,6 +67,7 @@ const getBodyTypeCounts = async (page) => {
     return res.json()
 }
 
+// Returns the top 100 products for a specific category based on reviews from customers with similar sizes
 const getTopProductsByCategorySize = async (category, size, page) => {
     console.log("in fetcher");
     var res = await fetch(`http://${config.server_host}:${config.server_port}/top_category_size/?category=${category}&size=${size}&page=${page}`, {
@@ -71,6 +76,7 @@ const getTopProductsByCategorySize = async (category, size, page) => {
     return res.json()
 }
 
+// Given a product in ModCloth (item_id i and size s) return its average rating
 const getInfoQuery3Search = async (item_id, size, page) => {
     var res = await fetch(`http://${config.server_host}:${config.server_port}/avg_rating?item_id=${item_id}&size=${size}&page=${page}`, {
         method: 'GET',
